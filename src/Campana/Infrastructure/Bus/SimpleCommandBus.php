@@ -1,6 +1,6 @@
 <?php
 
-namespace Epl\Http\Controllers\Marketing;
+namespace Epl\Campana\Infrastructure\Bus;
 
 use Epl\Infrastructure\Bus\Contracts\CommandBus;
 use Epl\Application\Bus\Contracts\Container;

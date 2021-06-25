@@ -1,6 +1,8 @@
 <?php
 
-namespace Epl\Domain\Marketing;
+namespace Epl\Campana\Domain\Contracts;
+
+use Epl\Campana\Domain\Entities\CampanaEntity;
 
 interface CampanaRepository
 {

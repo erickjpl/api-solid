@@ -30,9 +30,20 @@ class CampanaAPIController extends AppBaseController
 
     public function store(CreateCampanaAPIRequest $request)
     {
-        $input = $request->all();
+        $command = new CreateCampanaCommand(
+            $request->campana,
+            $request->from_name,
+            $request->from_email,
+            $request->asunto,
+            $request->fecha,
+            $request->status,
+            $request->lista,
+            $request->total_audiencia,
+            $request->step,
+            $request->email
+        );
 
-        $campana = $this->campanaRepository->create($input);
+        $this->commandBus->execute($command);
 
         return $this->sendResponse(
             new CampanaResource($campana),
