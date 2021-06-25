@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::group(['prefix' => 'marketing'], function () {
+    Route::resource('campanas', App\Http\Controllers\Marketing\CampanaAPIController::class);
+});

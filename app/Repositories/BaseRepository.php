@@ -3,10 +3,11 @@
 namespace App\Repositories;
 
 use Illuminate\Container\Container as Application;
+use App\Contracts\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 
 
-abstract class BaseRepository
+abstract class BaseRepository implements BaseRepositoryInterface
 {
     /**
      * @var Model
