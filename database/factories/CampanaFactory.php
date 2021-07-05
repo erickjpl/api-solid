@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Marketing;
+namespace Database\Factories;
 
 use App\Models\Marketing\Campana;
 use Illuminate\Database\Eloquent\Factories\Factory;

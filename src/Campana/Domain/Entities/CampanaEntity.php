@@ -2,7 +2,9 @@
 
 namespace Epl\Campana\Domain\Entities;
 
-final class CampanaEntity implements Command
+use Epl\Campana\Domain\Exceptions\ModelNotFound;
+
+final class CampanaEntity
 {
     private $id;
     private $campana;
@@ -16,7 +18,19 @@ final class CampanaEntity implements Command
     private $step;
     private $email;
 
-    public function __construct($id, $campana, $name, $email, $asunto, $fecha, $status, $lista, $audiencia, $step, $template)
+    public function __construct(
+        string $campana,
+        string $audiencia,
+        int $step,
+        string $status,
+        string $name = null,
+        string $email = null,
+        string $asunto = null,
+        string $fecha = null,
+        string $lista = null,
+        string $template = null,
+        int $id = null
+    )
     {
         $this->id = $id;
         $this->campana = $campana;
@@ -26,9 +40,29 @@ final class CampanaEntity implements Command
         $this->fecha = $fecha;
         $this->status = $status;
         $this->lista = $lista;
-        $this->total_audiencia = $total_audiencia;
+        $this->total_audiencia = $audiencia;
         $this->step = $step;
         $this->email = $template;
+    }
+
+    public static function map($data): self
+    {
+        if (!$data)
+            throw new ModelNotFound();
+
+        return new self(
+            $data->campana,
+            $data->total_audiencia,
+            $data->step,
+            $data->status,
+            $data->from_name,
+            $data->from_email,
+            $data->asunto,
+            $data->fecha,
+            $data->lista,
+            $data->email,
+            $data->id
+        );
     }
 
     public function getId() {
@@ -73,5 +107,32 @@ final class CampanaEntity implements Command
     
     public function getEmail() {
         return $this->email;
+    }
+
+    public function toCollect()
+    {
+        return collect($this->toArray());
+    }
+
+    public function toJson()
+    {
+        return (object) $this->toArray();
+    }
+
+    public function toArray()
+    {
+        return array(
+            'id' => $this->getId(),
+            'campana' => $this->getCampana(),
+            'from_name' => $this->getFromName(),
+            'from_email' => $this->getFromEmail(),
+            'asunto' => $this->getAsunto(),
+            'fecha' => $this->getFecha(),
+            'status' => $this->getStatus(),
+            'lista' => $this->getLista(),
+            'total_audiencia' => $this->getTotalAudiencia(),
+            'step' => $this->getStep(),
+            'email' => $this->getEmail()
+        );
     }
 }

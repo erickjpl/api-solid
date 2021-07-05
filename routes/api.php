@@ -20,5 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::group(['prefix' => 'marketing'], function () {
-    Route::resource('campanas', App\Http\Controllers\Marketing\CampanaAPIController::class);
+    Route::resource('campanas', App\Http\Controllers\Marketing\CampanaController::class);
 });

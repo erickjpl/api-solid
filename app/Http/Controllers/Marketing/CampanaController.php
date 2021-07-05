@@ -2,51 +2,61 @@
 
 namespace App\Http\Controllers\Marketing;
 
-use App\Http\Requests\Marketing\CreateCampanaAPIRequest;
-use App\Http\Requests\Marketing\UpdateCampanaAPIRequest;
-use App\Models\Marketing\Campana;
-use App\Repositories\Marketing\CampanaRepository;
 use Illuminate\Http\Request;
+use App\Models\Marketing\Campana;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\Marketing\CampanaResource;
-use Response;
+use Epl\Campana\Application\UseCase\FindCampanaUseCase;
+use App\Http\Requests\Marketing\CreateCampanaAPIRequest;
+use App\Http\Requests\Marketing\UpdateCampanaAPIRequest;
+use Epl\Campana\Infrastructure\Eloquent\CampanaRepository;
 
 /**
  * Class CampanaController
  * @package App\Http\Controllers\Marketing
  */
 
-use Erl\Application\Services\Marketing\CampanaCommand;
-use Erl\Infrastructure\Bus\Contracts\CommandBus;
-
-class CampanaAPIController extends AppBaseController
+class CampanaController extends AppBaseController
 {
-    private $commandBus;
+    private $repository;
 
-    public function __construct(CommandBus $commandBus)
+    public function __construct(CampanaRepository $repository)
     {
-        $this->commandBus = $commandBus;
+        $this->repository = $repository;
+    }
+
+    public function show(int $id)
+    {
+        $command = new FindCampanaUseCase($this->repository);
+
+        try {
+            $entity = $command->execute($id);
+
+            if (empty($entity))
+                return $this->sendError(__('messages.not_found', ['model' => __('models/campanas.singular')]));
+        } catch (\Exception $exception) {
+            Log::error("[CampanaAPIController][show][exception] {$exception}");
+            return $this->sendError(__('messages.not_found', ['model' => __('models/campanas.singular')]));
+        }
+
+        return $this->sendResponse(
+            new CampanaResource($entity), __('messages.retrieved', ['model' => __('models/campanas.singular')])
+        );
     }
 
     public function store(CreateCampanaAPIRequest $request)
     {
-        $command = new CreateCampanaCommand(
-            $request->campana,
-            $request->from_name,
-            $request->from_email,
-            $request->asunto,
-            $request->fecha,
-            $request->status,
-            $request->lista,
-            $request->total_audiencia,
-            $request->step,
-            $request->email
-        );
+        $command = new CreateCampanaUseCase($this->repository);
 
-        $this->commandBus->execute($command);
+        try {
+            $entity = $command->execute(CampanaHandler::fromRequest($request));
+        } catch (\Exception $exception) {
+            Log::error("[CampanaAPIController][store][exception] {$exception->getMessage()}");
+        }
 
         return $this->sendResponse(
-            new CampanaResource($campana),
+            new CampanaResource($entity),
             __('messages.saved', ['model' => __('models/campanas.singular')])
         );
     }

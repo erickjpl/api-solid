@@ -64,7 +64,7 @@ class Campana extends Model
         'from_name' => 'string',
         'from_email' => 'string',
         'asunto' => 'string',
-        'fecha' => 'datetime',
+        'fecha' => 'datetime:Y-m-d H:i:s',
         'status' => 'string',
         'lista' => 'string',
         'total_audiencia' => 'integer',

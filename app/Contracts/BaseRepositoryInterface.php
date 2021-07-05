@@ -35,6 +35,11 @@ interface BaseRepositoryInterface
     public function find($id, $columns = ['*']);
 
     /**
+     * Find model record with given filter criteria
+     */
+    public function first($search = [], $columns = ['*']);
+
+    /**
      * Update model record for given id
      */
     public function update($input, $id);

@@ -5,7 +5,7 @@ namespace App\Repositories;
 use Illuminate\Container\Container as Application;
 use App\Contracts\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Log;
 
 abstract class BaseRepository implements BaseRepositoryInterface
 {
@@ -24,9 +24,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
      *
      * @throws \Exception
      */
-    public function __construct(Application $app)
+    public function __construct()
     {
-        $this->app = $app;
+        $this->app = new Application();
         $this->makeModel();
     }
 
@@ -150,9 +150,28 @@ abstract class BaseRepository implements BaseRepositoryInterface
      */
     public function find($id, $columns = ['*'])
     {
-        $query = $this->model->newQuery();
+        try {
+            $query = $this->model->newQuery();
 
-        return $query->find($id, $columns);
+            return $query->findOrFail($id, $columns);
+        } catch(\Exception $e) {
+            Log::error("find {$e->getMessage()}");
+        }
+    }
+
+    /**
+     * Find model record with given filter criteria
+     *
+     * @param array $search
+     * @param array $columns
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|Model|null
+     */
+    public function first($search = [], $columns = ['*'])
+    {
+        $query = $this->allQuery($search);
+
+        return $query->firstOrFail($columns);
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Epl\Domain\Contracts;
+namespace Epl\Campana\Domain\Contracts;
 
 interface CampanaRepositoryInterface
 {

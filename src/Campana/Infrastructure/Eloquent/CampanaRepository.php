@@ -1,12 +1,12 @@
 <?php
 
-namespace Epl\Domain\Marketing;
+namespace Epl\Campana\Infrastructure\Eloquent;
 
 use App\Models\Marketing\Campana;
-use Epl\Campana\Domain\Entities\CampanaEntity;
-use Epl\Campana\Domain\Contracts\CampanaRepository;
+use App\Repositories\BaseRepository;
+use Epl\Campana\Domain\Contracts\CampanaRepositoryInterface;
 
-final class CampanaRepository extends BaseRepository implements CampanaInterface
+final class CampanaRepository extends BaseRepository implements CampanaRepositoryInterface
 {
     /**
      * @var array

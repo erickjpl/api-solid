@@ -1,10 +1,10 @@
 <?php
 
-namespace Epl\Campana\Application\UseCase;
+namespace Epl\Campana\Application\Handlers;
 
-use Epl\Application\Contracts\Command;
+use App\Http\Requests\Marketing\CreateCampanaAPIRequest;
 
-final class CreateCampanaCommand implements Command
+final class CampanaHandler implements CampanaMapperInterface
 {
     private $campana;
     private $from_name;
@@ -29,6 +29,22 @@ final class CreateCampanaCommand implements Command
         $this->total_audiencia = $total_audiencia;
         $this->step = $step;
         $this->email = $template;
+    }
+
+    public static function fromRequest(CreateTicketRequest $request): self
+    {
+        return new self(
+            $request->campana,
+            $request->from_name,
+            $request->from_email,
+            $request->asunto,
+            $request->fecha,
+            $request->status,
+            $request->lista,
+            $request->total_audiencia,
+            $request->step,
+            $request->email
+        );
     }
     
     public function getCampana() {
