@@ -3,13 +3,11 @@
 namespace App\Models\Marketing;
 
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Campana
  * @package App\Models\Marketing
- * @version June 24, 2021, 5:55 pm UTC
  *
  * @property \Illuminate\Database\Eloquent\Collection $campanaDetalles
  * @property \Illuminate\Database\Eloquent\Collection $campanaEventos

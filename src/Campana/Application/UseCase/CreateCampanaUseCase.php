@@ -3,8 +3,8 @@
 namespace Epl\Campana\Application\UseCase;
 
 use Epl\Campana\Domain\Entities\CampanaEntity;
-use Epl\Campana\Application\Mapper\CampanaMapper;
-use Epl\Campana\Domain\Contracts\CampanaRepository;
+use Epl\Campana\Application\Handlers\CampanaHandler;
+use Epl\Campana\Infrastructure\Eloquent\CampanaRepository;
 
 final class CreateCampanaUseCase
 {

@@ -2,9 +2,7 @@
 
 namespace Epl\Campana\Application\Handlers;
 
-use App\Http\Requests\Marketing\CreateCampanaAPIRequest;
-
-final class CampanaHandler implements CampanaMapperInterface
+final class CampanaHandler
 {
     private $campana;
     private $from_name;
@@ -26,7 +24,7 @@ final class CampanaHandler implements CampanaMapperInterface
         $this->fecha = $fecha;
         $this->status = $status;
         $this->lista = $lista;
-        $this->total_audiencia = $total_audiencia;
+        $this->total_audiencia = $audiencia;
         $this->step = $step;
         $this->email = $template;
     }

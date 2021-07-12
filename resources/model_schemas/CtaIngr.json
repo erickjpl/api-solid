@@ -1,0 +1,258 @@
+[
+    {
+        "name": "co_ingr",
+        "dbType": "string,6",
+        "htmlType": "text",
+        "validations": null,
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "descrip",
+        "dbType": "string,60",
+        "htmlType": "text",
+        "validations": "required|string|max:60|string|max:60",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "cta_contab",
+        "dbType": "string,20",
+        "htmlType": "text",
+        "validations": "required|string|max:20|string|max:20",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "dis_cen",
+        "dbType": "text,16",
+        "htmlType": "textarea",
+        "validations": "required|string|string",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "campo1",
+        "dbType": "string,60",
+        "htmlType": "text",
+        "validations": "required|string|max:60|string|max:60",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "campo2",
+        "dbType": "string,60",
+        "htmlType": "text",
+        "validations": "required|string|max:60|string|max:60",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "campo3",
+        "dbType": "string,60",
+        "htmlType": "text",
+        "validations": "required|string|max:60|string|max:60",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "campo4",
+        "dbType": "string,60",
+        "htmlType": "text",
+        "validations": "required|string|max:60|string|max:60",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "co_us_in",
+        "dbType": "string,6",
+        "htmlType": "text",
+        "validations": "required|string|max:6|string|max:6",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "fe_us_in",
+        "dbType": "datetime",
+        "htmlType": "date",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "co_us_mo",
+        "dbType": "string,6",
+        "htmlType": "text",
+        "validations": "required|string|max:6|string|max:6",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "fe_us_mo",
+        "dbType": "datetime",
+        "htmlType": "date",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "co_us_el",
+        "dbType": "string,6",
+        "htmlType": "text",
+        "validations": "required|string|max:6|string|max:6",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "fe_us_el",
+        "dbType": "datetime",
+        "htmlType": "date",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "revisado",
+        "dbType": "string,1",
+        "htmlType": "text",
+        "validations": "required|string|max:1|string|max:1",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "trasnfe",
+        "dbType": "string,1",
+        "htmlType": "text",
+        "validations": "required|string|max:1|string|max:1",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "co_sucu",
+        "dbType": "string,6",
+        "htmlType": "text",
+        "validations": "required|string|max:6|string|max:6",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "rowguid",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "required|string|string",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "co_islr",
+        "dbType": "string,6",
+        "htmlType": "text",
+        "validations": "required|string|max:6|string|max:6",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Cliente,co_ingr"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,DepCaj,cta_egre"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,MovBan,cta_egre"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,MovCaj,cta_egre"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,OrdPago,cta_egre"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Prov,co_ingr"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,RengOpg,cta_egre"
+    }
+]

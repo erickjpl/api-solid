@@ -229,5 +229,25 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+    
+    'debug_hide' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_DATABASE',
+            'DB_USERNAME',
+            'DB_PASSWORD'
+        ],
+
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_DATABASE',
+            'DB_USERNAME',
+            'DB_PASSWORD'
+        ],
+
+        '_POST' => [
+            'password',
+        ],
+    ],
 
 ];
