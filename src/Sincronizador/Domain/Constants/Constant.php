@@ -2,7 +2,7 @@
 
 namespace Epl\Sincronizador\Domain\Constants;
 
-abstract class Constant
+class Constant
 {
     /** BEGIN V2 */
     const DIR_DREAMHOST = 'valleverde.tk/codigo/backend/storage/app/sync/';

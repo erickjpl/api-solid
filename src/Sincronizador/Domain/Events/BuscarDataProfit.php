@@ -3,26 +3,26 @@
 namespace Epl\Sincronizador\Domain\Events;
 
 use Epl\Sincronizador\Domain\Constants\Constant;
-use Epl\Sincronizador\Domain\Contracts\BuscarDataInterface;
+use Epl\Sincronizador\Domain\Contracts\BuscarDataAbstract;
 
-final class BuscarDataProfit extends Constant implements BuscarDataInterface
-{
+final class BuscarDataProfit extends BuscarDataAbstract
+{ 
   public function buscarData(string $traza, string $opcion, string $tienda, array $fecha): array
   {
 		switch ($opcion) {
 			case 'general':
 				return array(
-					array('class' => \App\Models\Sincronizador\Vendedor::class, 'path' => $tienda.'/'.self::DATA.self::VENDEDOR, 'query' => array('condic' => 1)),
-					array('class' => \App\Models\Sincronizador\TipoAju::class, 'path' =>  $tienda.'/'.self::DATA.self::TIPO_AJU, 'query' => false),
-					array('class' => \App\Models\Sincronizador\CtaIngr::class, 'path' =>  $tienda.'/'.self::DATA.self::CTA_INGR, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Segmento::class, 'path' =>  $tienda.'/'.self::DATA.self::SEGMENTO, 'query' => false),
-					array('class' => \App\Models\Sincronizador\TipoPro::class, 'path' =>  $tienda.'/'.self::DATA.self::TIPO_PRO, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Zona::class, 'path' =>  $tienda.'/'.self::DATA.self::ZONA, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Prov::class, 'path' =>  $tienda.'/'.self::DATA.self::PROV, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Tabulado::class, 'path' =>  $tienda.'/'.self::DATA.self::TABULADO, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Unidades::class, 'path' =>  $tienda.'/'.self::DATA.self::UNIDADES, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Proceden::class, 'path' =>  $tienda.'/'.self::DATA.self::PROCEDEN, 'query' => false),
-					array('class' => \App\Models\Sincronizador\TipoCli::class, 'path' =>  $tienda.'/'.self::DATA.self::TIPO_CLI, 'query' => false)
+					array('class' => \App\Models\Sincronizador\Vendedor::class, 'path' => $tienda.'/'.Constant::DATA.Constant::VENDEDOR, 'query' => array('condic' => 1)),
+					array('class' => \App\Models\Sincronizador\TipoAju::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_AJU, 'query' => false),
+					array('class' => \App\Models\Sincronizador\CtaIngr::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::CTA_INGR, 'query' => false),
+					array('class' => \App\Models\Sincronizador\Segmento::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::SEGMENTO, 'query' => false),
+					array('class' => \App\Models\Sincronizador\TipoPro::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_PRO, 'query' => false),
+					array('class' => \App\Models\Sincronizador\Zona::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::ZONA, 'query' => false),
+					array('class' => \App\Models\Sincronizador\Prov::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::PROV, 'query' => false),
+					array('class' => \App\Models\Sincronizador\Tabulado::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TABULADO, 'query' => false),
+					array('class' => \App\Models\Sincronizador\Unidades::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::UNIDADES, 'query' => false),
+					array('class' => \App\Models\Sincronizador\Proceden::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::PROCEDEN, 'query' => false),
+					array('class' => \App\Models\Sincronizador\TipoCli::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_CLI, 'query' => false)
 				);
 				break;
 			// case 'warehouse':

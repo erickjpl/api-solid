@@ -1,6 +1,6 @@
 <?php
 
-namespace Epl\Sincronizador\Application\Services;
+namespace Epl\Sincronizador\Application\Handlers;
 
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 use Epl\Sincronizador\Domain\Exceptions\RegistroNoEncontrado;

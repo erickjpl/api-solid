@@ -1,6 +1,6 @@
 <?php
 
-namespace Epl\Sincronizador\Infrastructure\Bus\Contracts;
+namespace Epl\Sincronizador\Infrastructure\Bus;
 
 use Epl\Sincronizador\Application\Bus\Contracts\Container;
 use Illuminate\Container\Container as IoC;

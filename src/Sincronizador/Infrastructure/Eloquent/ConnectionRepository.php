@@ -1,12 +1,12 @@
 <?php
 
-namespace Epl\Campana\Infrastructure\Eloquent;
+namespace Epl\Sincronizador\Infrastructure\Eloquent;
 
 use App\Repositories\BaseRepository;
 use App\Models\Configuracion\Connection;
-use Epl\Sincronizador\Domain\Contracts\ConnectionIRespository;
+use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
-final class ConnectionRepository extends BaseRepository implements ConnectionIRespository
+final class ConnectionRepository extends BaseRepository implements InterfaceRespository
 {
   /**
    * @var array

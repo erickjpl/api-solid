@@ -1,6 +1,6 @@
 <?php
 
-namespace Epl\Sincronizador\Application\Services;
+namespace Epl\Sincronizador\Application\Handlers;
 
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 use Exception;
@@ -12,10 +12,10 @@ final class ArchivarDataCasoUso
 		$this->repository = $repository;
 	}
 
-	public function execute($class, $path, $query)
+	public function execute(array $query)
 	{
 		try {
-      $this->repository->all($query, 'row_id');
+      return $this->repository->all($query, 'row_id');
     } catch (Exception $exception) {
       throw $exception;
     }

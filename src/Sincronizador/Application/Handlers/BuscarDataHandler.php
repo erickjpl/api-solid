@@ -1,24 +1,25 @@
 <?php
 
-namespace Epl\Sincronizador\Application\Services;
+namespace Epl\Sincronizador\Application\Handlers;
 
 use Carbon\Carbon;
-use Epl\Sincronizador\Domain\Services\BuscarData;
 use Epl\Sincronizador\Application\Contracts\Handler;
-use Epl\Sincronizador\Domain\Contracts\BuscarDataInterface;
+use Epl\Sincronizador\Domain\Services\SeleccionarClass;
+use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
 final class BuscarDataHandler implements Handler
 {
+	private $interface;
 	private $repository;
 	private InterfaceRespository $iRepo;
 	private ValidarConexionTiendaCasoUso $conexionRepo;
 	private ActualizarConexionTiendaCasoUso $actConexionRepo;
 	private ArchivarDataCasoUso $archivarRepo;
 
-	public function __construct(BuscarDataInterface $repository)
+	public function __construct(SincronizarDataIRepository $interface)
 	{
-		$this->repository = $repository;
+		$this->interface = $interface;
 		$this->conexionRepo = new ValidarConexionTiendaCasoUso($this->iRepo);
 		$this->actConexionRepo = new ActualizarConexionTiendaCasoUso($this->iRepo);
 		$this->archivarRepo = new ArchivarDataCasoUso($this->iRepo);
@@ -26,19 +27,18 @@ final class BuscarDataHandler implements Handler
 
 	public function __invoke($command)
 	{
-		$service = new BuscarData();
+		$fecha = $this->validarFechaInicioTienda($command);
 
-		$this->repository = $service->opcionBuscar($command->getTienda());
+		/** Busca la clase que se necesita implementar para buscar la data que debe subir para sincronizar */
+		$class = new SeleccionarClass($this->interface);
+		$this->repository = $class->opcionBuscar($command->getTienda());
 
-		$fecha = $this->validarTienda($command);
+		$sincronizar = $this->repository->buscarData($command->getTraza(), $command->getOpcion(), $command->getTienda(), $fecha);
 
-		$data = $this->repository->buscarData($command->getTraza(), $command->getOpcion(), $command->getTienda(), $fecha);
-
-		$this->archivarData($data);
-
+		$this->archivarData($sincronizar);
 	}
 
-	private function validarTienda($command): array
+	private function validarFechaInicioTienda($command): array
 	{
 		if ($command->getTienda() == 'profit') {
 			$entity = $this->conexionRepo->execute($command->getTienda());
@@ -64,7 +64,8 @@ final class BuscarDataHandler implements Handler
 	private function archivarData(array $data)
 	{
 		foreach ($data as $opcion) {
-			$this->archivarRepo->execute($opcion['class'], $opcion['path'], $opcion['query']);
+			$model = $this->archivarRepo->execute($opcion['query']);
+			$this->repository->guardarData($opcion['path'], $model);
 		}
 	}
 }

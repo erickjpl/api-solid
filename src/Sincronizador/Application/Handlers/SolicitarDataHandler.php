@@ -1,9 +1,9 @@
 <?php
 
-namespace Epl\Sincronizador\Application\Services;
+namespace Epl\Sincronizador\Application\Handlers;
 
+use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
 use Epl\Sincronizador\Application\Contracts\Handler;
-use Epl\Sincronizador\Domain\Contracts\SolicitarDataIRepository;
 use Epl\Sincronizador\Domain\Services\SolicitarData;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -13,7 +13,7 @@ final class SolicitarDataHandler implements Handler
 	private $almacen;
 	private $repository;
 
-	public function __construct(SolicitarDataIRepository $repository)
+	public function __construct(SincronizarDataIRepository $repository)
 	{
 		$this->repository = $repository;
 		$this->almacen = Str::lower(config('app.shop'));

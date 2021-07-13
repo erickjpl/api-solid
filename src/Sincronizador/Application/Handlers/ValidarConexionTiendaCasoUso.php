@@ -1,8 +1,8 @@
 <?php
 
-namespace Epl\Sincronizador\Application\Services;
+namespace Epl\Sincronizador\Application\Handlers;
 
-use Epl\Campana\Domain\Entities\ConnectionEntity;
+use Epl\Sincronizador\Domain\Entities\ConnectionEntity;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 use Exception;
 
@@ -17,7 +17,7 @@ final class ValidarConexionTiendaCasoUso
 	{
 		try {
       return ConnectionEntity::fromDto($this->repository->first(array('shop' => $tienda), array('id', 'status', 'start_date')));
-    } catch (\Exception $exception) {
+    } catch (Exception $exception) {
       throw $exception;
     }
 	}

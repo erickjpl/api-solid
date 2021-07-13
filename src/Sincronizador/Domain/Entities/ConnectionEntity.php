@@ -1,6 +1,6 @@
 <?php
 
-namespace Epl\Campana\Domain\Entities;
+namespace Epl\Sincronizador\Domain\Entities;
 
 final class ConnectionEntity
 {

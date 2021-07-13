@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Sincronizador;
+namespace App\Http\Controllers\Solid\Sincronizador;
 
 use App\Http\Controllers\AppBaseController;
 use Epl\Sincronizador\Application\Services\BuscarDataCommand;
