@@ -4,9 +4,9 @@ namespace Epl\Sincronizador\Infrastructure\Bus;
 
 use Epl\Sincronizador\Application\Contracts\Command;
 use Epl\Sincronizador\Application\Bus\Contracts\Container;
-use Epl\Sincronizador\Infrastructure\Bus\Contracts\CommandBus;
+use Epl\Sincronizador\Infrastructure\Bus\Contracts\SincronizadorBus;
 
-final class SincronizadorCommandBus implements CommandBus
+final class SincronizadorCommandBus implements SincronizadorBus
 {
   private const COMMAND_PREFIX = 'Command';
   private const HANDLER_PREFIX = 'Handler';

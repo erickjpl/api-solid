@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Solid\Sincronizador;
 use App\Http\Controllers\AppBaseController;
 use Epl\Sincronizador\Application\Services\BuscarDataCommand;
 use Epl\Sincronizador\Application\Services\SolicitarDataCommand;
-use Epl\Sincronizador\Infrastructure\Bus\Contracts\CommandBus;
+use Epl\Sincronizador\Infrastructure\Bus\Contracts\SincronizadorBus;
 use Illuminate\Http\Request;
 
 class SolicitarDataController extends AppBaseController
 {
-  /** @var  CommandBus */
+  /** @var  SincronizadorBus */
   private $commandBus;
 
-  public function __construct(CommandBus $commandBus)
+  public function __construct(SincronizadorBus $commandBus)
   {
     $this->commandBus = $commandBus;
   }
