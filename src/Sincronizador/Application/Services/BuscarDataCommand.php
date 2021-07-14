@@ -6,11 +6,11 @@ use Epl\Sincronizador\Application\Contracts\Command;
 
 final class BuscarDataCommand implements Command
 {
-	private string $tipo;
-	private array $fecha;
-	private string $traza;
-	private string $opcion;
-	private string $tienda;
+	private $tipo;
+	private $fecha;
+	private $traza;
+	private $opcion;
+	private $tienda;
 
 	public function __construct(string $traza, string $tipo, string $opcion, string $tienda, array $fecha)
 	{

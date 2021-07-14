@@ -24,7 +24,7 @@ class SolicitarDataController extends AppBaseController
 
     $this->commandBus->execute($command);
 
-    return response()->json('REALIZANDO PRUEBAS');
+    return response()->json('solicitar REALIZANDO PRUEBAS');
   }
   
   public function buscar(string $traza, string $tipo, string $opcion, string $tienda, array $fecha)
@@ -33,6 +33,6 @@ class SolicitarDataController extends AppBaseController
 
     $this->commandBus->execute($command);
 
-    return response()->json('REALIZANDO PRUEBAS');
+    return response()->json('buscar REALIZANDO PRUEBAS');
   }
 }

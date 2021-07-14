@@ -7,10 +7,10 @@ use Epl\Sincronizador\Domain\Exceptions\ParametrosIncorrectos;
 
 final class SolicitarDataCommand implements Command
 {
-	private string $tipo;
-	private string $opcion;
-	private string $tienda;
-	private array $fecha;
+	private $tipo;
+	private $opcion;
+	private $tienda;
+	private $fecha;
 
 	public function __construct(array $payload)
 	{
