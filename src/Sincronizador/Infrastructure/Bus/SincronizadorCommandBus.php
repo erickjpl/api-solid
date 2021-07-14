@@ -31,8 +31,8 @@ final class SincronizadorCommandBus implements SincronizadorBus
   public function getHandlerClass(Command $command): string
   {
     return str_replace(
-      self::COMMAND_PREFIX,
-      self::HANDLER_PREFIX,
+      array('Services', self::COMMAND_PREFIX),
+      array('Handlers', self::HANDLER_PREFIX),
       get_class($command)
     );
   }
