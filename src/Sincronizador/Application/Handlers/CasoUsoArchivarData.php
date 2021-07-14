@@ -2,21 +2,20 @@
 
 namespace Epl\Sincronizador\Application\Handlers;
 
-use Epl\Sincronizador\Domain\Entities\ConnectionEntity;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 use Exception;
 
-final class ValidarConexionTiendaCasoUso
+final class CasoUsoArchivarData
 {
 	public function __construct(InterfaceRespository $repository)
 	{
 		$this->repository = $repository;
 	}
 
-	public function execute($tienda): ?ConnectionEntity
+	public function execute(array $query)
 	{
 		try {
-      return ConnectionEntity::fromDto($this->repository->first(array('shop' => $tienda), array('id', 'status', 'start_date')));
+      return $this->repository->all($query, 'row_id');
     } catch (Exception $exception) {
       throw $exception;
     }

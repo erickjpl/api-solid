@@ -5,7 +5,7 @@ namespace Epl\Sincronizador\Application\Handlers;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 use Epl\Sincronizador\Domain\Exceptions\RegistroNoEncontrado;
 
-final class ActualizarConexionTiendaCasoUso
+final class CasoUsoActualizarConexionTienda
 {
 	public function __construct(InterfaceRespository $repository)
 	{

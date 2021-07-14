@@ -13,16 +13,16 @@ final class BuscarDataHandler implements Handler
 	private $interface;
 	private $repository;
 	private InterfaceRespository $iRepo;
-	private ValidarConexionTiendaCasoUso $conexionRepo;
-	private ActualizarConexionTiendaCasoUso $actConexionRepo;
-	private ArchivarDataCasoUso $archivarRepo;
+	private CasoUsoArchivarData $archivarRepo;
+	private CasoUsoValidarConexionTienda $conexionRepo;
+	private CasoUsoActualizarConexionTienda $actConexionRepo;
 
 	public function __construct(SincronizarDataIRepository $interface)
 	{
 		$this->interface = $interface;
-		$this->conexionRepo = new ValidarConexionTiendaCasoUso($this->iRepo);
-		$this->actConexionRepo = new ActualizarConexionTiendaCasoUso($this->iRepo);
-		$this->archivarRepo = new ArchivarDataCasoUso($this->iRepo);
+		$this->conexionRepo = new CasoUsoValidarConexionTienda($this->iRepo);
+		$this->actConexionRepo = new CasoUsoActualizarConexionTienda($this->iRepo);
+		$this->archivarRepo = new CasoUsoArchivarData($this->iRepo);
 	}
 
 	public function __invoke($command)

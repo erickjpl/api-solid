@@ -13,16 +13,16 @@ final class BuscarDataProfit extends BuscarDataAbstract
 			case 'general':
 				return array(
 					array('class' => \App\Models\Sincronizador\Vendedor::class, 'path' => $tienda.'/'.Constant::DATA.Constant::VENDEDOR, 'query' => array('condic' => 1)),
-					array('class' => \App\Models\Sincronizador\TipoAju::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_AJU, 'query' => false),
-					array('class' => \App\Models\Sincronizador\CtaIngr::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::CTA_INGR, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Segmento::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::SEGMENTO, 'query' => false),
-					array('class' => \App\Models\Sincronizador\TipoPro::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_PRO, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Zona::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::ZONA, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Prov::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::PROV, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Tabulado::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TABULADO, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Unidades::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::UNIDADES, 'query' => false),
-					array('class' => \App\Models\Sincronizador\Proceden::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::PROCEDEN, 'query' => false),
-					array('class' => \App\Models\Sincronizador\TipoCli::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_CLI, 'query' => false)
+					array('class' => \App\Models\Sincronizador\TipoAju::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_AJU, 'query' => []),
+					array('class' => \App\Models\Sincronizador\CtaIngr::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::CTA_INGR, 'query' => array('fe_us_mo', array($fecha['start_date'],$fecha['end_date']))),
+					array('class' => \App\Models\Sincronizador\Segmento::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::SEGMENTO, 'query' => array('fe_us_mo', array($fecha['start_date'],$fecha['end_date']))),
+					array('class' => \App\Models\Sincronizador\TipoPro::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_PRO, 'query' => array('fe_us_mo', array($fecha['start_date'],$fecha['end_date']))),
+					array('class' => \App\Models\Sincronizador\Zona::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::ZONA, 'query' => array('fe_us_mo', array($fecha['start_date'],$fecha['end_date']))),
+					array('class' => \App\Models\Sincronizador\Prov::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::PROV, 'query' => array('fe_us_mo', array($fecha['start_date'],$fecha['end_date']))),
+					array('class' => \App\Models\Sincronizador\Tabulado::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TABULADO, 'query' => []),
+					array('class' => \App\Models\Sincronizador\Unidades::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::UNIDADES, 'query' => array('fe_us_mo', array($fecha['start_date'],$fecha['end_date']))),
+					array('class' => \App\Models\Sincronizador\Proceden::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::PROCEDEN, 'query' => array('fe_us_mo', array($fecha['start_date'],$fecha['end_date']))),
+					array('class' => \App\Models\Sincronizador\TipoCli::class, 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_CLI, 'query' => array('fe_us_mo', array($fecha['start_date'],$fecha['end_date'])))
 				);
 				break;
 			// case 'warehouse':
