@@ -2,14 +2,12 @@
 
 namespace App\Models\Sincronizador;
 
-use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class TipoAju
  * @package App\Models\Sincronizador
- * @version July 11, 2021, 10:17 am -04
  *
  * @property \Illuminate\Database\Eloquent\Collection $rengAjus
  * @property string $des_tipo
@@ -31,17 +29,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class TipoAju extends Model
 {
-    use SoftDeletes;
-
     use HasFactory;
 
     public $table = 'tipo_aju';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
 
     public $connection = "sqlsrv";
 

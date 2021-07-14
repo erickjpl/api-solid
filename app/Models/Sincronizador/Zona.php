@@ -2,14 +2,12 @@
 
 namespace App\Models\Sincronizador;
 
-use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Zona
  * @package App\Models\Sincronizador
- * @version July 11, 2021, 10:23 am -04
  *
  * @property \Illuminate\Database\Eloquent\Collection $clientes
  * @property \Illuminate\Database\Eloquent\Collection $provs
@@ -32,17 +30,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Zona extends Model
 {
-    use SoftDeletes;
-
     use HasFactory;
 
     public $table = 'zona';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-
-    protected $dates = ['deleted_at'];
 
     public $connection = "sqlsrv";
 

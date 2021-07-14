@@ -15,15 +15,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class Connection extends Model
 {
-
     use HasFactory;
 
     public $table = 'connections';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-    protected $dates = ['deleted_at'];
 
     public $connection = "mysql";
 

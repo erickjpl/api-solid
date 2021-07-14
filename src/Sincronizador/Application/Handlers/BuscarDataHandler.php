@@ -4,16 +4,13 @@ namespace Epl\Sincronizador\Application\Handlers;
 
 use Carbon\Carbon;
 use Epl\Sincronizador\Application\Contracts\Handler;
-use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 use Epl\Sincronizador\Domain\Services\SeleccionarClass;
 use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
 use Epl\Sincronizador\Infrastructure\Eloquent\ConnectionRepository;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 final class BuscarDataHandler implements Handler
 {
-	private $iRepo;
 	private $repository;
 	private $conexionRepo;
 	private $actConexionRepo;
@@ -64,9 +61,13 @@ final class BuscarDataHandler implements Handler
 	private function archivarData(array $data)
 	{
 		foreach ($data as $opcion) {
-			$casoUso = $this->mapCasoUso($opcion['class']);
-			$model = $casoUso->execute($opcion['query']);
-			$this->repository->guardarData($opcion['path'], $model);
+			try {
+				$casoUso = $this->mapCasoUso($opcion['class']);
+				$model = $casoUso->execute($opcion['query']);
+				$this->repository->guardarData($opcion['path'], $model);
+			} catch (\Exception $e) {
+				Log::debug("[ERROR] {$e->getMessage()}");
+			}
 		}
 	}
 
@@ -74,6 +75,6 @@ final class BuscarDataHandler implements Handler
 	{
 		$casoUso = "\\Epl\\Sincronizador\\Application\\Handlers\\Profit\\CasoUso{$class}";
 		$repository = "\\Epl\\Sincronizador\\Infrastructure\\Eloquent\\Profit\\{$class}Repository";
-		return new $casoUso($repository);
+		return new $casoUso(new $repository());
 	}
 }

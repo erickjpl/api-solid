@@ -50,8 +50,14 @@ class ProcedenRepository extends BaseRepository implements InterfaceRespository
     public function all($search = [], $skip = null, $limit = null, $columns = ['*'])
     {
         $query = $this->allQuery([], $skip, $limit);
-
-        $query = $query->whereBetween($search);
+        
+        if (count($search)) {
+            foreach($search as $key => $value) {
+                if (in_array($key, $this->getFieldsSearchable())) {
+                    $query->whereBetween($key, $value);
+                }
+            }
+        }
 
         return $query->get($columns);
     }
