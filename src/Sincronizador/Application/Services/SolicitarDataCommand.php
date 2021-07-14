@@ -12,13 +12,13 @@ final class SolicitarDataCommand implements Command
 	private $tienda;
 	private $fecha;
 
-	public function __construct(string $tipo, string $opcion, string $tienda, array $payload)
+	public function __construct(string $tipo, string $opcion, string $tienda, array $payload = [])
 	{
 		try {
 			$this->tipo = $tipo;
 			$this->opcion = $opcion;
 			$this->tienda = $tienda;
-			$this->fecha = $payload['fecha'] ?? [];
+			$this->fecha = $payload;
 		} catch (ParametrosIncorrectos $e) {
 			throw $e;
 		}

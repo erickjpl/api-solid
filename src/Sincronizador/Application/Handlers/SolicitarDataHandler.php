@@ -22,9 +22,9 @@ final class SolicitarDataHandler implements Handler
 	public function __invoke($command)
 	{
 		$service = new SolicitarData();
-		$opciones = $service->opciones($command->getOpcion());
+		$opciones = $service->validarTipo($command->getTipo());
 		$fecha = $service->devolverFecha($command->getFecha());
-		$flag = $service->validarOpciones($command->getOpcion(), $command->getTienda(), $opciones);
+		$flag = $service->validarOpciones($command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones);
 
 		$this->encolar($flag, $command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones, $fecha);
 	}
@@ -41,16 +41,6 @@ final class SolicitarDataHandler implements Handler
 			case 2:
 				$traza = $this->encolarBuscarData($tipo, $opcion, $tienda, $fecha);
         Log::info("[$traza][PROFIT][ALMACEN]{$this->almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} [OPCION] {$opcion} | [FECHA] {$fecha['start_date']} - {$fecha['end_date']}");
-				break;
-			case 3:
-        Log::error("[PROFIT][ALMACEN]{$this->almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} [OPCION] La opción enviada no es permitida.");
-				break;
-			case 4:
-				Log::error("[PROFIT][ALMACEN]{$this->almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} La tienda enviada no es filial de VALLEVERDE");
-				break;
-			
-			default:
-				Log::error("[PROFIT] Error no esperando");
 				break;
 		}
 	}

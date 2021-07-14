@@ -5,24 +5,20 @@ namespace Epl\Sincronizador\Application\Handlers;
 use Carbon\Carbon;
 use Epl\Sincronizador\Application\Contracts\Handler;
 use Epl\Sincronizador\Domain\Services\SeleccionarClass;
-use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
+use Illuminate\Support\Facades\Log;
 
 final class BuscarDataHandler implements Handler
 {
-	private $interface;
 	private $repository;
-	private InterfaceRespository $iRepo;
-	private CasoUsoArchivarData $archivarRepo;
-	private CasoUsoValidarConexionTienda $conexionRepo;
-	private CasoUsoActualizarConexionTienda $actConexionRepo;
+	private $conexionRepo;
+	private $actConexionRepo;
 
-	public function __construct(SincronizarDataIRepository $interface)
+	public function __construct(InterfaceRespository $repository)
 	{
-		$this->interface = $interface;
-		$this->conexionRepo = new CasoUsoValidarConexionTienda($this->iRepo);
-		$this->actConexionRepo = new CasoUsoActualizarConexionTienda($this->iRepo);
-		$this->archivarRepo = new CasoUsoArchivarData($this->iRepo);
+		$this->repository = $repository;
+		$this->conexionRepo = new CasoUsoValidarConexionTienda($repository);
+		$this->actConexionRepo = new CasoUsoActualizarConexionTienda($repository);
 	}
 
 	public function __invoke($command)
@@ -30,26 +26,28 @@ final class BuscarDataHandler implements Handler
 		$fecha = $this->validarFechaInicioTienda($command);
 
 		/** Busca la clase que se necesita implementar para buscar la data que debe subir para sincronizar */
-		$class = new SeleccionarClass($this->interface);
-		$this->repository = $class->opcionBuscar($command->getTienda());
-
-		$sincronizar = $this->repository->buscarData($command->getTraza(), $command->getOpcion(), $command->getTienda(), $fecha);
-
-		$this->archivarData($sincronizar);
+		// $class = SeleccionarClass::opcionBuscar($command->getTienda());
+		// $sincronizar = $class->obtenerClass($command->getTraza(), $command->getOpcion(), $command->getTienda(), $fecha);
+		// $this->archivarData($sincronizar);
 	}
 
 	private function validarFechaInicioTienda($command): array
 	{
-		if ($command->getTienda() == 'profit') {
+		if ($command->getTipo() == 'profit' || $command->getTipo() == 'matriz') {
+			/** Buscar el inicio de la fecha registrada en la última conexión de sincronización */
 			$entity = $this->conexionRepo->execute($command->getTienda());
-			$fecha = $command->getTienda();
+
+			/** Obtener la fecha enviada por el usuario */
+			$fecha = $command->getFecha();
 
 			if ($entity->getStatus() == 0) {
-				$model_start_date = Carbon::parse($entity->getStartDate())->addDays(-10);
-				$ahora = Carbon::parse($fecha['start_date']);
+				$model_start_date = Carbon::parse($entity->getStartDate());
+				$solicitud = Carbon::parse($fecha['start_date']);
+
+				Log::debug($entity);
 	
-				/** Si la fecha de la DB es mayor que la solicitada se actualiza la variable de start_date para la busqueda */
-				if ($model_start_date < $ahora) { $fecha['start_date'] = $model_start_date; }
+				/** Si la fecha del Modelo es menir que la solicitada se actualiza la variable de start_date para la busqueda */
+				if ($model_start_date < $solicitud) { $fecha['start_date'] = $model_start_date; }
 				else { $this->actConexionRepo->execute(array('start_date' => $fecha['start_date']), $entity->getId()); }
 			} else {
 				$this->actConexionRepo->execute(array('start_date' => $fecha['start_date'], 'status' => '0'), $entity->getId());
@@ -64,8 +62,15 @@ final class BuscarDataHandler implements Handler
 	private function archivarData(array $data)
 	{
 		foreach ($data as $opcion) {
-			$model = $this->archivarRepo->execute($opcion['query']);
-			$this->repository->guardarData($opcion['path'], $model);
+			$casoUso = $this->mapCasoUso($opcion['class']);
+			$model = $casoUso->execute($opcion['query']);
+			// $this->repository->guardarData($opcion['path'], $model);
 		}
+	}
+
+	private function mapCasoUso($class)
+	{
+		$casoUso = "\\Epl\\Sincronizador\\Application\\Handlers\\Profit\\CasoUso".$class;
+		return new $casoUso($this->repository);
 	}
 }

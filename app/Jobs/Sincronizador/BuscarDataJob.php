@@ -2,12 +2,12 @@
 
 namespace App\Jobs\Sincronizador;
 
-use Epl\Sincronizador\Infrastructure\Bus\Contracts\CommandBus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 
 class BuscarDataJob implements ShouldQueue
 {
@@ -18,7 +18,7 @@ class BuscarDataJob implements ShouldQueue
     protected $traza;
     protected $opcion;
     protected $tienda;
-    protected CommandBus $commandBus;
+    protected $commandBus;
 
     /**
      * The number of times the job may be attempted.
@@ -39,7 +39,7 @@ class BuscarDataJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($traza, $tipo, $opcion, $tienda, $fecha)
+    public function __construct(string $traza, string  $tipo, string  $opcion, string  $tienda, array $fecha)
     {
         $this->tipo = $tipo;
         $this->fecha = $fecha;
@@ -55,7 +55,7 @@ class BuscarDataJob implements ShouldQueue
      */
     public function handle()
     {
-        $sync = new \App\Http\Controllers\Sincronizador\SolicitarDataController($this->commandBus);
+        $sync = App::make(\App\Http\Controllers\Solid\Sincronizador\SolicitarDataController::class);
 
         $sync->buscar($this->traza, $this->tipo, $this->opcion, $this->tienda, $this->fecha);
     }
