@@ -1,6 +1,6 @@
 <?php
 
-namespace Epl\Sincronizador\Infrastructure\Eloquent;
+namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
 use App\Models\Sincronizador\Tabulado;
 use App\Repositories\BaseRepository;

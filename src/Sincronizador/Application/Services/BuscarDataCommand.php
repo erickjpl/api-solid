@@ -3,7 +3,6 @@
 namespace Epl\Sincronizador\Application\Services;
 
 use Epl\Sincronizador\Application\Contracts\Command;
-
 final class BuscarDataCommand implements Command
 {
 	private $tipo;

@@ -4,21 +4,25 @@ namespace Epl\Sincronizador\Application\Handlers;
 
 use Carbon\Carbon;
 use Epl\Sincronizador\Application\Contracts\Handler;
-use Epl\Sincronizador\Domain\Services\SeleccionarClass;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
+use Epl\Sincronizador\Domain\Services\SeleccionarClass;
+use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
+use Epl\Sincronizador\Infrastructure\Eloquent\ConnectionRepository;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 
 final class BuscarDataHandler implements Handler
 {
+	private $iRepo;
 	private $repository;
 	private $conexionRepo;
 	private $actConexionRepo;
 
-	public function __construct(InterfaceRespository $repository)
+	public function __construct(SincronizarDataIRepository $repository)
 	{
 		$this->repository = $repository;
-		$this->conexionRepo = new CasoUsoValidarConexionTienda($repository);
-		$this->actConexionRepo = new CasoUsoActualizarConexionTienda($repository);
+		$this->conexionRepo = new CasoUsoValidarConexionTienda(new ConnectionRepository());
+		$this->actConexionRepo = new CasoUsoActualizarConexionTienda(new ConnectionRepository());
 	}
 
 	public function __invoke($command)
@@ -26,9 +30,9 @@ final class BuscarDataHandler implements Handler
 		$fecha = $this->validarFechaInicioTienda($command);
 
 		/** Busca la clase que se necesita implementar para buscar la data que debe subir para sincronizar */
-		// $class = SeleccionarClass::opcionBuscar($command->getTienda());
-		// $sincronizar = $class->obtenerClass($command->getTraza(), $command->getOpcion(), $command->getTienda(), $fecha);
-		// $this->archivarData($sincronizar);
+		$class = SeleccionarClass::opcionBuscar($command->getTienda());
+		$sincronizar = $class->obtenerClass($command->getTraza(), $command->getOpcion(), $command->getTienda(), $fecha);
+		$this->archivarData($sincronizar);
 	}
 
 	private function validarFechaInicioTienda($command): array
@@ -43,8 +47,6 @@ final class BuscarDataHandler implements Handler
 			if ($entity->getStatus() == 0) {
 				$model_start_date = Carbon::parse($entity->getStartDate());
 				$solicitud = Carbon::parse($fecha['start_date']);
-
-				Log::debug($entity);
 	
 				/** Si la fecha del Modelo es menir que la solicitada se actualiza la variable de start_date para la busqueda */
 				if ($model_start_date < $solicitud) { $fecha['start_date'] = $model_start_date; }
@@ -64,13 +66,14 @@ final class BuscarDataHandler implements Handler
 		foreach ($data as $opcion) {
 			$casoUso = $this->mapCasoUso($opcion['class']);
 			$model = $casoUso->execute($opcion['query']);
-			// $this->repository->guardarData($opcion['path'], $model);
+			$this->repository->guardarData($opcion['path'], $model);
 		}
 	}
 
 	private function mapCasoUso($class)
 	{
-		$casoUso = "\\Epl\\Sincronizador\\Application\\Handlers\\Profit\\CasoUso".$class;
-		return new $casoUso($this->repository);
+		$casoUso = "\\Epl\\Sincronizador\\Application\\Handlers\\Profit\\CasoUso{$class}";
+		$repository = "\\Epl\\Sincronizador\\Infrastructure\\Eloquent\\Profit\\{$class}Repository";
+		return new $casoUso($repository);
 	}
 }

@@ -1,44 +1,24 @@
 <?php
 
-namespace Epl\Sincronizador\Infrastructure\Eloquent;
+namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
-use App\Models\Sincronizador\Vendedor;
+use App\Models\Sincronizador\CtaIngr;
 use App\Repositories\BaseRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
-class VendedorRepository extends BaseRepository implements InterfaceRespository
+final class CtaIngrRepository extends BaseRepository implements InterfaceRespository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'tipo',
-        'ven_des',
-        'dis_cen',
-        'cedula',
-        'direc1',
-        'direc2',
-        'telefonos',
-        'fecha_reg',
-        'condic',
-        'comision',
-        'comen',
-        'fun_cob',
-        'fun_ven',
-        'comisionv',
-        'fac_ult_ve',
-        'fec_ult_ve',
-        'net_ult_ve',
-        'cli_ult_ve',
+        'descrip',
         'cta_contab',
+        'dis_cen',
         'campo1',
         'campo2',
         'campo3',
         'campo4',
-        'campo5',
-        'campo6',
-        'campo7',
-        'campo8',
         'co_us_in',
         'fe_us_in',
         'co_us_mo',
@@ -49,10 +29,7 @@ class VendedorRepository extends BaseRepository implements InterfaceRespository
         'trasnfe',
         'co_sucu',
         'rowguid',
-        'login',
-        'password',
-        'email',
-        'PSW_M'
+        'co_islr'
     ];
 
     /**
@@ -70,6 +47,15 @@ class VendedorRepository extends BaseRepository implements InterfaceRespository
      **/
     public function model()
     {
-        return Vendedor::class;
+        return CtaIngr::class;
+    }
+
+    public function all($search = [], $skip = null, $limit = null, $columns = ['*'])
+    {
+        $query = $this->allQuery([], $skip, $limit);
+
+        $query = $query->whereBetween($search);
+
+        return $query->get($columns);
     }
 }

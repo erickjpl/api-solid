@@ -1,18 +1,18 @@
 <?php
 
-namespace Epl\Sincronizador\Infrastructure\Eloquent;
+namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
-use App\Models\Sincronizador\TipoPro;
+use App\Models\Sincronizador\Unidades;
 use App\Repositories\BaseRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
-class TipoProRepository extends BaseRepository implements InterfaceRespository
+class UnidadesRepository extends BaseRepository implements InterfaceRespository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'des_tipo',
+        'des_uni',
         'campo1',
         'campo2',
         'campo3',
@@ -26,7 +26,8 @@ class TipoProRepository extends BaseRepository implements InterfaceRespository
         'revisado',
         'trasnfe',
         'co_sucu',
-        'rowguid'
+        'rowguid',
+        'row_id'
     ];
 
     /**
@@ -44,7 +45,7 @@ class TipoProRepository extends BaseRepository implements InterfaceRespository
      **/
     public function model()
     {
-        return TipoPro::class;
+        return Unidades::class;
     }
 
     public function all($search = [], $skip = null, $limit = null, $columns = ['*'])

@@ -1,18 +1,21 @@
 <?php
 
-namespace Epl\Sincronizador\Infrastructure\Eloquent;
+namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
-use App\Models\Sincronizador\Unidades;
+use App\Models\Sincronizador\Segmento;
 use App\Repositories\BaseRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
-class UnidadesRepository extends BaseRepository implements InterfaceRespository
+class SegmentoRepository extends BaseRepository implements InterfaceRespository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'des_uni',
+        'seg_des',
+        'c_cuenta',
+        'p_cuenta',
+        'dis_cen',
         'campo1',
         'campo2',
         'campo3',
@@ -26,8 +29,7 @@ class UnidadesRepository extends BaseRepository implements InterfaceRespository
         'revisado',
         'trasnfe',
         'co_sucu',
-        'rowguid',
-        'row_id'
+        'rowguid'
     ];
 
     /**
@@ -45,7 +47,7 @@ class UnidadesRepository extends BaseRepository implements InterfaceRespository
      **/
     public function model()
     {
-        return Unidades::class;
+        return Segmento::class;
     }
 
     public function all($search = [], $skip = null, $limit = null, $columns = ['*'])

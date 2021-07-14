@@ -1,18 +1,19 @@
 <?php
 
-namespace Epl\Sincronizador\Infrastructure\Eloquent;
+namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
-use App\Models\Sincronizador\Proceden;
+use App\Models\Sincronizador\TipoCli;
 use App\Repositories\BaseRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
-class ProcedenRepository extends BaseRepository implements InterfaceRespository
+class TipoCliRepository extends BaseRepository implements InterfaceRespository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'des_proc',
+        'des_tipo',
+        'precio_a',
         'campo1',
         'campo2',
         'campo3',
@@ -26,7 +27,8 @@ class ProcedenRepository extends BaseRepository implements InterfaceRespository
         'revisado',
         'trasnfe',
         'co_sucu',
-        'rowguid'
+        'rowguid',
+        'row_id'
     ];
 
     /**
@@ -44,7 +46,7 @@ class ProcedenRepository extends BaseRepository implements InterfaceRespository
      **/
     public function model()
     {
-        return Proceden::class;
+        return TipoCli::class;
     }
 
     public function all($search = [], $skip = null, $limit = null, $columns = ['*'])

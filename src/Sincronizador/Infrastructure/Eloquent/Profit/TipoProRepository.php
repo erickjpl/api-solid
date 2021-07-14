@@ -1,21 +1,18 @@
 <?php
 
-namespace Epl\Sincronizador\Infrastructure\Eloquent;
+namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
-use App\Models\Sincronizador\Segmento;
+use App\Models\Sincronizador\TipoPro;
 use App\Repositories\BaseRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
-class SegmentoRepository extends BaseRepository implements InterfaceRespository
+class TipoProRepository extends BaseRepository implements InterfaceRespository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'seg_des',
-        'c_cuenta',
-        'p_cuenta',
-        'dis_cen',
+        'des_tipo',
         'campo1',
         'campo2',
         'campo3',
@@ -47,7 +44,7 @@ class SegmentoRepository extends BaseRepository implements InterfaceRespository
      **/
     public function model()
     {
-        return Segmento::class;
+        return TipoPro::class;
     }
 
     public function all($search = [], $skip = null, $limit = null, $columns = ['*'])

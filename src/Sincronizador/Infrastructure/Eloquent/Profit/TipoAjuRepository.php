@@ -1,19 +1,19 @@
 <?php
 
-namespace Epl\Sincronizador\Infrastructure\Eloquent;
+namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
-use App\Models\Sincronizador\TipoCli;
+use App\Models\Sincronizador\TipoAju;
 use App\Repositories\BaseRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
-class TipoCliRepository extends BaseRepository implements InterfaceRespository
+class TipoAjuRepository extends BaseRepository implements InterfaceRespository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
         'des_tipo',
-        'precio_a',
+        'tipo_trans',
         'campo1',
         'campo2',
         'campo3',
@@ -27,8 +27,7 @@ class TipoCliRepository extends BaseRepository implements InterfaceRespository
         'revisado',
         'trasnfe',
         'co_sucu',
-        'rowguid',
-        'row_id'
+        'rowguid'
     ];
 
     /**
@@ -46,15 +45,6 @@ class TipoCliRepository extends BaseRepository implements InterfaceRespository
      **/
     public function model()
     {
-        return TipoCli::class;
-    }
-
-    public function all($search = [], $skip = null, $limit = null, $columns = ['*'])
-    {
-        $query = $this->allQuery([], $skip, $limit);
-
-        $query = $query->whereBetween($search);
-
-        return $query->get($columns);
+        return TipoAju::class;
     }
 }
