@@ -14,14 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-Route::group(['prefix' => 'marketing'], function () {
-    Route::resource('campanas', App\Http\Controllers\Marketing\CampanaController::class);
-});
-
 Route::get('sincronizador/solicitar/{tipo}/{opcion}/{tienda}', '\App\Http\Controllers\Solid\Sincronizador\SolicitarDataController@solicitar');
 Route::get('sincronizador/buscar', '\App\Http\Controllers\Solid\Sincronizador\SolicitarDataController@buscar');

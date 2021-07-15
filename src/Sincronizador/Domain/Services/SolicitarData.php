@@ -6,17 +6,22 @@ use Epl\Sincronizador\Domain\Exceptions\TiendaValleverdeDesconocida;
 use Epl\Sincronizador\Domain\Exceptions\OpcionParaSincronizarNoPermitida;
 use Epl\Sincronizador\Domain\Exceptions\TipoDeSincronizacionDesconocido;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class SolicitarData
 {
-  private const TIENDAS = array('online', 'asambi', 'cande', 'ccct', 'casca', 'hatilo', 'lider', 'recreo', 'retail', 'wholesale', 'matriz');
-	private const ALMACEN_PRINCIPAL = 'matriz';
+  private $tiendas;
 	private const TODO = 1; /** Todas las opciones */
 	private const TODAS = 'all'; /** Todas las opciones */
 	private const ESPECIFICA = 2; /** Una opción especifica */
 	private const NO_PERMITIDA = 'La opción indicada para sincronizar con los almacenes no es permitida favor verifique'; /* 3 */
 	private const NO_TIENDA = 'No es una tienda VALLEVERDE favor verifique'; /* 4 */
 	private const TIPO_DESCONOCIDO = 'La opción es invalida, para proceder con la sincronización debe verficar el tipo. Valores Permitidos (wholesale, init_web, web, matriz, profit)';
+
+	public function __construct()
+	{
+		$this->tiendas = array(Str::lower(config('app.almacenes')));
+	}
 
   public function validarTipo(string $tipo): array
   {
@@ -45,13 +50,13 @@ class SolicitarData
 		return array('start_date' => \Carbon\Carbon::parse($start_date)->format('Y-m-d'), 'end_date' => \Carbon\Carbon::parse($end_date)->format('Y-m-d'));
   }
 
-  public function validarOpciones(string $tipo, string $opcion, string $tienda, array $opciones): int
+  public function validarTiendaOpciones(string $tipo, string $opcion, string $tienda, array $opciones, string $ALMACEN_PRINCIPAL): int
   {
-    if (in_array($tienda, self::TIENDAS) || (self::ALMACEN_PRINCIPAL == $tipo && self::TODAS == $tienda)) {
+		if (in_array($tienda, $this->tiendas) || ($ALMACEN_PRINCIPAL == $tipo && self::TODAS == $tienda)) {
 			if ($opcion == self::TODAS) { return self::TODO; }
-      elseif (in_array($opcion, $opciones)) { return self::ESPECIFICA;}
-      else {
-        Log::error("[SOLICITAR DATA][VALIDAR OPCIONES][ERROR][".self::NO_PERMITIDA."]");
+			elseif (in_array($opcion, $opciones)) { return self::ESPECIFICA;}
+			else {
+				Log::error("[SOLICITAR DATA][VALIDAR OPCIONES][ERROR][".self::NO_PERMITIDA."]");
 				throw new OpcionParaSincronizarNoPermitida(self::NO_PERMITIDA);
 			}
 		} else {

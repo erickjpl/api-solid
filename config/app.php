@@ -15,6 +15,10 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'almacen' => env('APP_ALMACEN', 'matriz'),
+    
+    'almacenes' => env('APP_ALMACENES', []),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

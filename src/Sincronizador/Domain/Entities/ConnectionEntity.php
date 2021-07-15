@@ -5,12 +5,14 @@ namespace Epl\Sincronizador\Domain\Entities;
 final class ConnectionEntity
 {
   private $id;
+  private $shop;
   private $status;
   private $start_date;
 
-  private function __construct(string $id, string $status, string $start_date)
+  private function __construct(string $id, string $shop, string $start_date, string $status)
   {
     $this->id = $id;
+    $this->shop = $shop;
     $this->status = $status;
     $this->start_date = $start_date;
   }
@@ -24,11 +26,11 @@ final class ConnectionEntity
   }
 
   /**
-   * Get the value of status
+   * Get the value of start_date
    */ 
-  public function getStatus()
+  public function getShop()
   {
-    return $this->status;
+    return $this->shop;
   }
 
   /**
@@ -39,13 +41,17 @@ final class ConnectionEntity
     return $this->start_date;
   }
 
+  /**
+   * Get the value of status
+   */ 
+  public function getStatus()
+  {
+    return $this->status;
+  }
+
   public static function fromDto($responseDTO): ConnectionEntity
   {
-    try {
-      return new ConnectionEntity($responseDTO->id, $responseDTO->status, $responseDTO->start_date);
-    } catch (\Exception $exception) {
-      throw $exception;
-    }
+    return new ConnectionEntity($responseDTO->id, $responseDTO->shop, $responseDTO->start_date, $responseDTO->status);
   }
   
   // public function toDto()

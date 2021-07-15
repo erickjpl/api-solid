@@ -15,8 +15,8 @@ final class SolicitarDataHandler implements Handler
 
 	public function __construct(SincronizarDataIRepository $repository)
 	{
+		$this->almacen = Str::lower(config('app.almacen'));
 		$this->repository = $repository;
-		$this->almacen = Str::lower(config('app.shop'));
 	}
 
 	public function __invoke($command)
@@ -24,9 +24,13 @@ final class SolicitarDataHandler implements Handler
 		$service = new SolicitarData();
 		$opciones = $service->validarTipo($command->getTipo());
 		$fecha = $service->devolverFecha($command->getFecha());
-		$flag = $service->validarOpciones($command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones);
-
-		$this->encolar($flag, $command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones, $fecha);
+		$flag = $service->validarTiendaOpciones($command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones, $this->almacen);
+		
+		try {
+			$this->encolar($flag, $command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones, $fecha);
+		} catch(\Exception $e) {
+			Log::debug("SolicitarDataHandler {$e->getMessage()}");
+		}
 	}
 
 	private function encolar(int $flag, string $tipo, string $opcion, string $tienda, array $opciones, array $fecha)
