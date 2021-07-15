@@ -36,6 +36,7 @@ final class BuscarDataHandler implements Handler
 		if ($this->validarTipoEspecial($command->getTipo())) {
 			if ($this->todasTiendas($command->getTienda())) {
 				foreach ($this->tiendas as $tienda) {
+					if (in_array($tienda, $this->excluirTiendas())) { continue; }
 					$this->sincronizar($command->getTraza(), $command->getTienda(), $command->getOpcion(), $fecha[$tienda]);
 				}
 			} else {
@@ -54,6 +55,11 @@ final class BuscarDataHandler implements Handler
 		return $command == self::TODAS_TIENDAS;
 	}
 
+	private function excluirTiendas()
+	{
+		return array('online', 'matriz');
+	}
+
 	private function validarFechaInicioTienda($command): array
 	{
 		/** Obtener la fecha enviada por el usuario */
@@ -62,12 +68,17 @@ final class BuscarDataHandler implements Handler
 		if ($this->validarTipoEspecial($command->getTipo())) {
 			if ($this->todasTiendas($command->getTienda())) {
 				Log::debug("todasTiendas");
-				Log::debug($this->tiendas);
 				$fechas = collect();
 				foreach ($this->tiendas as $tienda) {
-					$entity = $this->buscarFechaTienda($tienda);
-					$resultado = $this->validarFechaTienda($entity, $fecha);
-					$fechas->push($resultado);
+					if (in_array($tienda, $this->excluirTiendas())) { continue; }
+
+					try {
+						$entity = $this->buscarFechaTienda($tienda);
+						$resultado = $this->validarFechaTienda($entity, $fecha);
+						$fechas->push($resultado);
+					} catch (\Exception $e) {
+						Log::debug("[BUSCAR DATA HANDLER][VALIDAR FECHA INICIO TIENDA][ERROR] {$e->getMessage()}");
+					}
 				}
 				return $fechas->toArray();
 			} else {
@@ -117,7 +128,7 @@ final class BuscarDataHandler implements Handler
 				$model = $casoUso->execute($opcion['query']);
 				$this->repository->guardarData($opcion['path'], $model);
 			} catch (\Exception $e) {
-				Log::debug("[ERROR] {$e->getMessage()}");
+				Log::debug("[BUSCAR DATA HANDLER][ARCHIVAR DATA][ERROR] {$e->getMessage()}");
 			}
 		}
 	}

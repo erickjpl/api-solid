@@ -150,13 +150,9 @@ abstract class BaseRepository implements BaseRepositoryInterface
      */
     public function find($id, $columns = ['*'])
     {
-        try {
-            $query = $this->model->newQuery();
+        $query = $this->model->newQuery();
 
-            return $query->findOrFail($id, $columns);
-        } catch(\Exception $e) {
-            Log::error("find {$e->getMessage()}");
-        }
+        return $query->findOrFail($id, $columns);
     }
 
     /**

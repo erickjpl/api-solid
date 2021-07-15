@@ -4,6 +4,7 @@ namespace Epl\Sincronizador\Application\Handlers;
 
 use Epl\Sincronizador\Domain\Entities\ConnectionEntity;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
+use Epl\Sincronizador\Domain\Exceptions\RegistroNoEncontrado;
 use Exception;
 
 final class CasoUsoValidarConexionTienda
@@ -15,10 +16,10 @@ final class CasoUsoValidarConexionTienda
 
 	public function execute($tienda): ?ConnectionEntity
 	{
-		try {
-      return ConnectionEntity::fromDto($this->repository->first(array('shop' => $tienda), array('id', 'status', 'start_date')));
-    } catch (Exception $exception) {
-      throw $exception;
-    }
+		$model = $this->repository->first(array('shop' => $tienda), array('id', 'shop', 'start_date', 'status'));
+
+		if ($model) { return ConnectionEntity::fromDto($model); }
+
+		throw new RegistroNoEncontrado("Conexión de tienda no encontrado");	
 	}
 }

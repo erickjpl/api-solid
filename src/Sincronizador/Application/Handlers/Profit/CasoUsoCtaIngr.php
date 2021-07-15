@@ -18,6 +18,6 @@ final class CasoUsoCtaIngr
 
     if ($entity->isNotEmpty()) return $entity;
 
-    throw new RegistroNoEncontrado("Cuentas de Ingreso no encontrado.");
+    throw new RegistroNoEncontrado("Cta Ingr no encontrado.");
 	}
 }
