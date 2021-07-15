@@ -20,7 +20,7 @@ class SolicitarData
 
 	public function __construct()
 	{
-		$this->tiendas = array(Str::lower(config('app.almacenes')));
+		$this->tiendas = Str::of(Str::lower(config('app.almacenes')))->explode(';')->toArray();
 	}
 
   public function validarTipo(string $tipo): array

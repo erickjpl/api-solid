@@ -26,7 +26,7 @@ final class BuscarDataHandler implements Handler
 		$this->repository = $repository;
 		$this->conexionRepo = new CasoUsoValidarConexionTienda(new ConnectionRepository());
 		$this->actConexionRepo = new CasoUsoActualizarConexionTienda(new ConnectionRepository());
-		$this->tiendas = array(Str::lower(config('app.almacenes')));
+		$this->tiendas = Str::of(Str::lower(config('app.almacenes')))->explode(';')->toArray();
 	}
 
 	public function __invoke($command)
@@ -61,6 +61,8 @@ final class BuscarDataHandler implements Handler
 
 		if ($this->validarTipoEspecial($command->getTipo())) {
 			if ($this->todasTiendas($command->getTienda())) {
+				Log::debug("todasTiendas");
+				Log::debug($this->tiendas);
 				$fechas = collect();
 				foreach ($this->tiendas as $tienda) {
 					$entity = $this->buscarFechaTienda($tienda);
