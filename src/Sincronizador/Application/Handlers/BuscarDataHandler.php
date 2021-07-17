@@ -2,14 +2,14 @@
 
 namespace Epl\Sincronizador\Application\Handlers;
 
-use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
 use Epl\Sincronizador\Infrastructure\Eloquent\ConnectionRepository;
+use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
+use Epl\Sincronizador\Domain\Entities\ConnectionEntity;
 use Epl\Sincronizador\Domain\Services\SeleccionarClass;
 use Epl\Sincronizador\Application\Contracts\Handler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-use Epl\Sincronizador\Domain\Entities\ConnectionEntity;
 
 final class BuscarDataHandler implements Handler
 {
@@ -17,9 +17,6 @@ final class BuscarDataHandler implements Handler
 	private $repository;
 	private $conexionRepo;
 	private $actConexionRepo;
-
-	const TODAS_TIENDAS = 'all';
-	const TIPO_ESPECIAL = array('matriz', 'profit');
 
 	public function __construct(SincronizarDataIRepository $repository)
 	{
@@ -33,11 +30,11 @@ final class BuscarDataHandler implements Handler
 	{
 		$fecha = $this->validarFechaInicioTienda($command);
 
-		if ($this->validarTipoEspecial($command->getTipo())) {
-			if ($this->todasTiendas($command->getTienda())) {
+		if (SeleccionarClass::validarTipoEspecial($command->getTipo())) {
+			if (SeleccionarClass::ejecutarTodasTiendas($command->getTienda())) {
 				foreach ($this->tiendas as $tienda) {
-					if (in_array($tienda, $this->excluirTiendas())) { continue; }
-					$this->sincronizar($command->getTraza(), $command->getTienda(), $command->getOpcion(), $fecha[$tienda]);
+					if (SeleccionarClass::excluirTiendas($tienda)) { continue; }
+					$this->sincronizar($command->getTraza(), $tienda, $command->getOpcion(), $fecha[$tienda]);
 				}
 			} else {
 				$this->sincronizar($command->getTraza(), $command->getTienda(), $command->getOpcion(), $fecha[$command->getTienda()]);
@@ -45,45 +42,29 @@ final class BuscarDataHandler implements Handler
 		} else { $this->sincronizar($command->getTraza(), $command->getTienda(), $command->getOpcion(), $fecha); }
 	}
 
-	private function validarTipoEspecial($command)
-	{
-		return in_array($command, self::TIPO_ESPECIAL);
-	}
-
-	private function todasTiendas($command)
-	{
-		return $command == self::TODAS_TIENDAS;
-	}
-
-	private function excluirTiendas()
-	{
-		return array('online', 'matriz');
-	}
-
 	private function validarFechaInicioTienda($command): array
 	{
 		/** Obtener la fecha enviada por el usuario */
 		$fecha = $command->getFecha();
 
-		if ($this->validarTipoEspecial($command->getTipo())) {
-			if ($this->todasTiendas($command->getTienda())) {
-				Log::debug("todasTiendas");
+		if (SeleccionarClass::validarTipoEspecial($command->getTipo())) {
+			if (SeleccionarClass::ejecutarTodasTiendas($command->getTienda())) {
 				$fechas = collect();
 				foreach ($this->tiendas as $tienda) {
-					if (in_array($tienda, $this->excluirTiendas())) { continue; }
+					if (SeleccionarClass::excluirTiendas($tienda)) { continue; }
 
 					try {
 						$entity = $this->buscarFechaTienda($tienda);
 						$resultado = $this->validarFechaTienda($entity, $fecha);
-						$fechas->push($resultado);
+						$fechas->put($entity->getShop(), $resultado);
 					} catch (\Exception $e) {
 						Log::debug("[BUSCAR DATA HANDLER][VALIDAR FECHA INICIO TIENDA][ERROR] {$e->getMessage()}");
 					}
 				}
-				return $fechas->toArray();
+				return $fechas->all();
 			} else {
 				$entity = $this->buscarFechaTienda($command->getTienda());
-				return $this->validarFechaTienda($entity, $fecha);
+				return array($entity->getShop() => $this->validarFechaTienda($entity, $fecha));
 			}
 		}
 
@@ -117,6 +98,7 @@ final class BuscarDataHandler implements Handler
 			$this->actConexionRepo->execute(array('start_date' => $fecha['start_date'], 'status' => '0'), $entity->getId());
 		}
 
+		return $fecha;
 		return array($entity->getShop() => $fecha);
 	}
 
@@ -126,9 +108,10 @@ final class BuscarDataHandler implements Handler
 			try {
 				$casoUso = $this->mapCasoUso($opcion['class']);
 				$model = $casoUso->execute($opcion['query']);
-				$this->repository->guardarData($opcion['path'], $model);
+				$this->repository->guardarData($opcion['path'], $model->toJson());
 			} catch (\Exception $e) {
 				Log::debug("[BUSCAR DATA HANDLER][ARCHIVAR DATA][ERROR] {$e->getMessage()}");
+				continue;
 			}
 		}
 	}

@@ -6,5 +6,5 @@ interface SincronizarDataIRepository
 {
   public function encolarBuscarData(string $traza, string $tipo, string $opcion, string $tienda, array $fecha, string $almacen): void;
 
-  public function guardarData(string $path, string $data): bool;
+  public function guardarData(string $path, $data): bool;
 }

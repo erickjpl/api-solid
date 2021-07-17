@@ -26,11 +26,7 @@ final class SolicitarDataHandler implements Handler
 		$fecha = $service->devolverFecha($command->getFecha());
 		$flag = $service->validarTiendaOpciones($command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones, $this->almacen);
 		
-		try {
-			$this->encolar($flag, $command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones, $fecha);
-		} catch(\Exception $e) {
-			Log::debug("SolicitarDataHandler {$e->getMessage()}");
-		}
+		$this->encolar($flag, $command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones, $fecha);
 	}
 
 	private function encolar(int $flag, string $tipo, string $opcion, string $tienda, array $opciones, array $fecha)
@@ -39,12 +35,12 @@ final class SolicitarDataHandler implements Handler
 			case 1:
 				foreach ($opciones as $value) {
 					$traza = $this->encolarBuscarData($tipo, $value, $tienda, $fecha);
-					Log::info("[$traza][PROFIT][ALMACEN]{$this->almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} [OPCION] {$value} | [FECHA] {$fecha['start_date']} - {$fecha['end_date']}");
+					Log::debug("[$traza][PROFIT][ALMACEN]{$this->almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} [OPCION] {$value} | [FECHA] {$fecha['start_date']} - {$fecha['end_date']}");
 				}
 				break;
 			case 2:
 				$traza = $this->encolarBuscarData($tipo, $opcion, $tienda, $fecha);
-        Log::info("[$traza][PROFIT][ALMACEN]{$this->almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} [OPCION] {$opcion} | [FECHA] {$fecha['start_date']} - {$fecha['end_date']}");
+        Log::debug("[$traza][PROFIT][ALMACEN]{$this->almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} [OPCION] {$opcion} | [FECHA] {$fecha['start_date']} - {$fecha['end_date']}");
 				break;
 		}
 	}

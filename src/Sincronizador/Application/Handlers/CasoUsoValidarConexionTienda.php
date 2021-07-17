@@ -16,10 +16,12 @@ final class CasoUsoValidarConexionTienda
 
 	public function execute($tienda): ?ConnectionEntity
 	{
-		$model = $this->repository->first(array('shop' => $tienda), array('id', 'shop', 'start_date', 'status'));
-
-		if ($model) { return ConnectionEntity::fromDto($model); }
-
-		throw new RegistroNoEncontrado("Conexión de tienda no encontrado");	
+		try {
+			$model = $this->repository->first(array('shop' => $tienda), array('id', 'shop', 'start_date', 'status'));
+	
+			return ConnectionEntity::fromDto($model);
+		} catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+			throw new RegistroNoEncontrado("La tienda no tiene registro de conexión.");
+		}
 	}
 }
