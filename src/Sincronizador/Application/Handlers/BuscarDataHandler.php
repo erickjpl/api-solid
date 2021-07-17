@@ -111,7 +111,7 @@ final class BuscarDataHandler implements Handler
 				$model = $casoUso->execute($opcion['query']);
 				$this->repository->guardarData($opcion['path'], $model->toJson());
 			} catch (\Exception $e) {
-				Log::error("[BUSCAR DATA HANDLER][ARCHIVAR DATA][CLASS][{$opcion['class']}][ERROR] {$opcion['skip']} {$e->getMessage()}");
+				Log::error("[BUSCAR DATA HANDLER][ARCHIVAR DATA][CLASS][{$opcion['class']}][ERROR] {$e->getMessage()}");
 				continue;
 			}
 		}

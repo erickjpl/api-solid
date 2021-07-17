@@ -59,6 +59,6 @@ class UnidadesRepository extends BaseRepository implements InterfaceRespository
             }
         }
 
-        return $query->get($$this->getFieldsSearchable());
+        return $query->get($this->getFieldsSearchable());
     }
 }
