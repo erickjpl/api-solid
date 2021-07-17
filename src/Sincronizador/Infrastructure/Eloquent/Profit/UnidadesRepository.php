@@ -26,8 +26,7 @@ class UnidadesRepository extends BaseRepository implements InterfaceRespository
         'revisado',
         'trasnfe',
         'co_sucu',
-        'rowguid',
-        'row_id'
+        'rowguid'
     ];
 
     /**
@@ -60,6 +59,6 @@ class UnidadesRepository extends BaseRepository implements InterfaceRespository
             }
         }
 
-        return $query->get($columns);
+        return $query->get($$this->getFieldsSearchable());
     }
 }

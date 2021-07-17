@@ -40,6 +40,13 @@ class Unidades extends Model
 
     public $connection = "sqlsrv";
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['row_id'];
+
     public $fillable = [
         'des_uni',
         'campo1',

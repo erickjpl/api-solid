@@ -4,6 +4,20 @@ namespace Epl\Sincronizador\Domain\Constants;
 
 class Constant
 {
+    /** INICIO REGLAS DE NEGOCIO */
+    const TODAS_TIENDAS = 'all';
+	const TIPO_ESPECIAL = array('fabrica', 'matriz');
+	const EXCLUIR_TIENDAS = array('matriz', 'online', 'retail', 'wholesale');
+
+    const TODO = 1; /** Todas las opciones */
+	const TODAS = 'all'; /** Todas las opciones */
+	const ESPECIFICA = 2; /** Una opción especifica */
+	const FABRICA = 'fabrica';
+	const NO_PERMITIDA = 'La opción indicada para sincronizar con los almacenes no es permitida favor verifique'; /* 3 */
+	const NO_TIENDA = 'No es una tienda VALLEVERDE favor verifique'; /* 4 */
+	const TIPO_DESCONOCIDO = 'La opción es invalida, para proceder con la sincronización debe verficar el tipo. Valores Permitidos (wholesale, init_web, web, matriz, profit)';
+    /** FIN REGLAS DE NEGOCIO */
+
     /** BEGIN V2 */
     const DIR_DREAMHOST = 'valleverde.tk/codigo/backend/storage/app/sync/';
     const DIR_AL_MAYOR  = 'valleverde.net.ve/al-mayor/Migrate/data/';

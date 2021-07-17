@@ -77,7 +77,6 @@ final class BuscarDataHandler implements Handler
 			$entity = $this->buscarFechaTienda($tienda);
 			return $this->validarFechaTienda($entity, $fecha);
 		} catch (\Exception $e) {
-			Log::debug("[BUSCAR DATA HANDLER][VALIDAR FECHA INICIO TIENDA ({$entity->getShop()})][ERROR] {$e->getMessage()}");
 			return $fecha;
 		}
 	}
@@ -112,7 +111,7 @@ final class BuscarDataHandler implements Handler
 				$model = $casoUso->execute($opcion['query']);
 				$this->repository->guardarData($opcion['path'], $model->toJson());
 			} catch (\Exception $e) {
-				Log::error("[BUSCAR DATA HANDLER][ARCHIVAR DATA][ERROR] {$e->getMessage()}");
+				Log::error("[BUSCAR DATA HANDLER][ARCHIVAR DATA][CLASS][{$opcion['class']}][ERROR] {$opcion['skip']} {$e->getMessage()}");
 				continue;
 			}
 		}

@@ -2,12 +2,15 @@
 
 namespace App\Jobs\Sincronizador;
 
+use Illuminate\Support\Facades\App;
+
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 
 class BuscarDataJob implements ShouldQueue
 {
@@ -55,8 +58,23 @@ class BuscarDataJob implements ShouldQueue
      */
     public function handle()
     {
-        $sync = App::make(\App\Http\Controllers\Solid\Sincronizador\SolicitarDataController::class);
-
-        $sync->buscar($this->traza, $this->tipo, $this->opcion, $this->tienda, $this->fecha);
+        try {
+            $sync = App::make(\App\Http\Controllers\Solid\Sincronizador\SolicitarDataController::class);
+    
+            $sync->buscar($this->traza, $this->tipo, $this->opcion, $this->tienda, $this->fecha);
+        } catch (\Exception $e) {
+            $this->fail($e);
+        }
+    }
+    
+    /**
+     * Handle a job failure.
+     *
+     * @param  \Throwable  $exception
+     * @return void
+     */
+    public function failed(\Throwable $exception)
+    {
+        Log::error("[BUSCAR DATA JOB][ERROR] {$exception->getMessage()}");
     }
 }
