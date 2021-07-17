@@ -3,7 +3,7 @@
 namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
 use App\Models\Sincronizador\Tabulado;
-use App\Repositories\BaseRepository;
+use Epl\Sincronizador\Infrastructure\Repositories\BaseRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
 class TabuladoRepository extends BaseRepository implements InterfaceRespository

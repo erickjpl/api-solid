@@ -2,9 +2,9 @@
 
 namespace Epl\Sincronizador\Infrastructure\Eloquent;
 
-use App\Repositories\BaseRepository;
 use App\Models\Configuracion\Connection;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
+use Epl\Sincronizador\Infrastructure\Repositories\BaseRepository;
 
 final class ConnectionRepository extends BaseRepository implements InterfaceRespository
 {

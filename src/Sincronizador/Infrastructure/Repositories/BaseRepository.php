@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace Epl\Sincronizador\Infrastructure\Repositories;
 
+use Epl\Sincronizador\Domain\Contracts\BaseRepositoryInterface;
 use Illuminate\Container\Container as Application;
-use App\Contracts\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 abstract class BaseRepository implements BaseRepositoryInterface
 {

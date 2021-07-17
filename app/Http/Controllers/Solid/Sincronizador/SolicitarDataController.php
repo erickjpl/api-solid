@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Solid\Sincronizador;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\Resources\Sincronizador\SolicitarDataResource;
 use Epl\Sincronizador\Application\Services\BuscarDataCommand;
 use Epl\Sincronizador\Application\Services\SolicitarDataCommand;
 use Epl\Sincronizador\Infrastructure\Bus\Contracts\SincronizadorBus;
@@ -23,8 +24,11 @@ class SolicitarDataController extends AppBaseController
     $command = new SolicitarDataCommand($tipo, $opcion, $tienda, $request->all());
 
     $this->commandBus->execute($command);
-
-    return response()->json('solicitar REALIZANDO PRUEBAS');
+    
+    return $this->sendResponse(
+      new SolicitarDataResource(array('message' => __('models/solicitarData.success'))),
+      __('messages.success', ['model' => __('models/solicitarData.singular')])
+    );
   }
   
   public function buscar(string $traza, string $tipo, string $opcion, string $tienda, array $fecha)

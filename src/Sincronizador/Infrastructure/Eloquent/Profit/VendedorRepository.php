@@ -2,7 +2,7 @@
 
 namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
-use App\Repositories\BaseRepository;
+use Epl\Sincronizador\Infrastructure\Repositories\BaseRepository;
 use App\Models\Sincronizador\Vendedor;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 

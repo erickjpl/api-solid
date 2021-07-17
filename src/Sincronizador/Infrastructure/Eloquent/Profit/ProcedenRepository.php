@@ -3,7 +3,7 @@
 namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
 use App\Models\Sincronizador\Proceden;
-use App\Repositories\BaseRepository;
+use Epl\Sincronizador\Infrastructure\Repositories\BaseRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
 class ProcedenRepository extends BaseRepository implements InterfaceRespository

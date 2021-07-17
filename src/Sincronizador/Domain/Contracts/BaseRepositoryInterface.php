@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts;
+namespace Epl\Sincronizador\Domain\Contracts;
 
 interface BaseRepositoryInterface
 {

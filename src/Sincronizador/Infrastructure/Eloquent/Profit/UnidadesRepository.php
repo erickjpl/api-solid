@@ -3,7 +3,7 @@
 namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
 use App\Models\Sincronizador\Unidades;
-use App\Repositories\BaseRepository;
+use Epl\Sincronizador\Infrastructure\Repositories\BaseRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
 class UnidadesRepository extends BaseRepository implements InterfaceRespository

@@ -3,7 +3,7 @@
 namespace Epl\Sincronizador\Infrastructure\Eloquent\Profit;
 
 use App\Models\Sincronizador\Prov;
-use App\Repositories\BaseRepository;
+use Epl\Sincronizador\Infrastructure\Repositories\BaseRepository;
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
 class ProvRepository extends BaseRepository implements InterfaceRespository
