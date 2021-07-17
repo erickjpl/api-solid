@@ -3,37 +3,49 @@
 namespace App\Http\Controllers\Solid\Sincronizador;
 
 use App\Http\Controllers\AppBaseController;
+use App\Http\Requests\Sincronizador\SolicitarDataRequest;
 use App\Http\Resources\Sincronizador\SolicitarDataResource;
 use Epl\Sincronizador\Application\Services\BuscarDataCommand;
 use Epl\Sincronizador\Application\Services\SolicitarDataCommand;
 use Epl\Sincronizador\Infrastructure\Bus\Contracts\SincronizadorBus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SolicitarDataController extends AppBaseController
 {
+  /** @var  String */
+  private $almacen;
   /** @var  SincronizadorBus */
   private $commandBus;
 
   public function __construct(SincronizadorBus $commandBus)
   {
     $this->commandBus = $commandBus;
+		$this->almacen = Str::lower(config('app.almacen'));
   }
   
-  public function solicitar(Request $request, $tipo, $opcion, $tienda)
+  public function solicitar($tipo, $opcion, $tienda, Request $request)
   {
-    $command = new SolicitarDataCommand($tipo, $opcion, $tienda, $request->all());
-
-    $this->commandBus->execute($command);
-    
-    return $this->sendResponse(
-      new SolicitarDataResource(array('message' => __('models/solicitarData.success'))),
-      __('messages.success', ['model' => __('models/solicitarData.singular')])
-    );
+    try {
+      $command = new SolicitarDataCommand($this->almacen, $tipo, $opcion, $tienda, $request->all());
+  
+      $this->commandBus->execute($command);
+      
+      return $this->sendResponse(
+        new SolicitarDataResource(array('message' => __('models/solicitarData.success'))),
+        __('messages.success', ['model' => __('models/solicitarData.singular')])
+      );
+    } catch(\Exception $e) {
+      return $this->sendResponse(
+        new SolicitarDataResource(array('message' => $e->getMessage())),
+        __('messages.failed', ['model' => __('models/solicitarData.singular')])
+      );
+    }
   }
   
   public function buscar(string $traza, string $tipo, string $opcion, string $tienda, array $fecha)
   {
-    $command = new BuscarDataCommand($traza, $tipo, $opcion, $tienda, $fecha);
+    $command = new BuscarDataCommand($this->almacen, $traza, $tipo, $opcion, $tienda, $fecha);
 
     $this->commandBus->execute($command);
 

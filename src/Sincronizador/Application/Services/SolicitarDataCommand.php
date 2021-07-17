@@ -8,20 +8,30 @@ use Epl\Sincronizador\Domain\Exceptions\ParametrosIncorrectos;
 final class SolicitarDataCommand implements Command
 {
 	private $tipo;
+	private $fecha;
 	private $opcion;
 	private $tienda;
-	private $fecha;
+	private $almacen;
 
-	public function __construct(string $tipo, string $opcion, string $tienda, array $payload = [])
+	public function __construct(string $almacen, string $tipo, string $opcion, string $tienda, array $payload = [])
 	{
 		try {
 			$this->tipo = $tipo;
 			$this->opcion = $opcion;
 			$this->tienda = $tienda;
 			$this->fecha = $payload;
+			$this->almacen = $almacen;
 		} catch (ParametrosIncorrectos $e) {
 			throw $e;
 		}
+	}
+
+	/**
+	 * Get the value of almacen
+	 */ 
+	public function getAlmacen()
+	{
+		return $this->almacen;
 	}
 
 	/**

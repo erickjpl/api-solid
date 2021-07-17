@@ -14,6 +14,7 @@ class SolicitarData
 	private const TODO = 1; /** Todas las opciones */
 	private const TODAS = 'all'; /** Todas las opciones */
 	private const ESPECIFICA = 2; /** Una opción especifica */
+	private const FABRICA = 'fabrica';
 	private const NO_PERMITIDA = 'La opción indicada para sincronizar con los almacenes no es permitida favor verifique'; /* 3 */
 	private const NO_TIENDA = 'No es una tienda VALLEVERDE favor verifique'; /* 4 */
 	private const TIPO_DESCONOCIDO = 'La opción es invalida, para proceder con la sincronización debe verficar el tipo. Valores Permitidos (wholesale, init_web, web, matriz, profit)';
@@ -26,13 +27,13 @@ class SolicitarData
   public function validarTipo(string $tipo): array
   {
     switch ($tipo) {
-			case 'wholesale':
+			case 'web-mayor':
 				return array('bancos','clientes', 'colores', 'lin_art', 'cuentas','docum_cc','colores_tallas','sub_lin','vendedor');
 			case 'init_web':
 				return array('warehouse','bank', 'all-items');
-			case 'web':
+			case 'web-detal':
 				return array('categories', 'articles', 'inventories', 'promotions', 'salesmans');
-			case 'matriz':
+			case 'fabrica': // matriz
 				return array('general', 'warehouse', 'currency', 'categories', 'articles', 'inventories', 'promotions', 'lots', 'tweaks', 'transfers');
 			case 'profit':
 				return array('customers', 'lots', 'tweaks', 'transfers', 'invoices', 'repayments', 'charges', 'deposits', 'documents');
@@ -50,13 +51,13 @@ class SolicitarData
 		return array('start_date' => \Carbon\Carbon::parse($start_date)->format('Y-m-d'), 'end_date' => \Carbon\Carbon::parse($end_date)->format('Y-m-d'));
   }
 
-  public function validarTiendaOpciones(string $tipo, string $opcion, string $tienda, array $opciones, string $ALMACEN_PRINCIPAL): int
+  public function validarTiendaOpciones(string $tipo, string $opcion, string $tienda, array $opciones): int
   {
-		if (in_array($tienda, $this->tiendas) || ($ALMACEN_PRINCIPAL == $tipo && self::TODAS == $tienda)) {
+		if (in_array($tienda, $this->tiendas) || (self::FABRICA == $tipo && self::TODAS == $tienda)) {
 			if ($opcion == self::TODAS) { return self::TODO; }
-			elseif (in_array($opcion, $opciones)) { return self::ESPECIFICA;}
+			elseif (in_array($opcion, $opciones)) { return self::ESPECIFICA; }
 			else {
-				Log::error("[SOLICITAR DATA][VALIDAR OPCIONES][ERROR][".self::NO_PERMITIDA."]");
+				Log::error("[SOLICITAR DATA][VALIDAR OPCIONES][$opcion][ERROR][".self::NO_PERMITIDA."]");
 				throw new OpcionParaSincronizarNoPermitida(self::NO_PERMITIDA);
 			}
 		} else {

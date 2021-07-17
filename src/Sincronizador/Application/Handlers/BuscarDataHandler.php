@@ -30,7 +30,7 @@ final class BuscarDataHandler implements Handler
 	{
 		$fecha = $this->validarFechaInicioTienda($command);
 
-		if (SeleccionarClass::validarTipoEspecial($command->getTipo())) {
+		if (SeleccionarClass::validarTipoEspecial($command->getTipo(), $command->getAlmacen())) {
 			if (SeleccionarClass::ejecutarTodasTiendas($command->getTienda())) {
 				foreach ($this->tiendas as $tienda) {
 					if (SeleccionarClass::excluirTiendas($tienda)) { continue; }
@@ -47,24 +47,16 @@ final class BuscarDataHandler implements Handler
 		/** Obtener la fecha enviada por el usuario */
 		$fecha = $command->getFecha();
 
-		if (SeleccionarClass::validarTipoEspecial($command->getTipo())) {
+		if (SeleccionarClass::validarTipoEspecial($command->getTipo(), $command->getAlmacen())) {
 			if (SeleccionarClass::ejecutarTodasTiendas($command->getTienda())) {
 				$fechas = collect();
 				foreach ($this->tiendas as $tienda) {
 					if (SeleccionarClass::excluirTiendas($tienda)) { continue; }
-
-					try {
-						$entity = $this->buscarFechaTienda($tienda);
-						$resultado = $this->validarFechaTienda($entity, $fecha);
-						$fechas->put($entity->getShop(), $resultado);
-					} catch (\Exception $e) {
-						Log::debug("[BUSCAR DATA HANDLER][VALIDAR FECHA INICIO TIENDA][ERROR] {$e->getMessage()}");
-					}
+					$fechas->put($tienda, $this->executeCasoUso($tienda, $fecha));
 				}
 				return $fechas->all();
 			} else {
-				$entity = $this->buscarFechaTienda($command->getTienda());
-				return array($entity->getShop() => $this->validarFechaTienda($entity, $fecha));
+				return array($command->getTienda() => $this->executeCasoUso($command->getTienda(), $fecha));
 			}
 		}
 
@@ -77,6 +69,17 @@ final class BuscarDataHandler implements Handler
 		$class = SeleccionarClass::opcionBuscar($tienda);
 		$sincronizar = $class->obtenerClass($traza, $opcion, $tienda, $fecha);
 		$this->archivarData($sincronizar);
+	}
+
+	public function executeCasoUso(string $tienda, array $fecha): array
+	{
+		try {
+			$entity = $this->buscarFechaTienda($tienda);
+			return $this->validarFechaTienda($entity, $fecha);
+		} catch (\Exception $e) {
+			Log::debug("[BUSCAR DATA HANDLER][VALIDAR FECHA INICIO TIENDA ({$entity->getShop()})][ERROR] {$e->getMessage()}");
+			return $fecha;
+		}
 	}
 
 	private function buscarFechaTienda(string $tienda)
@@ -99,7 +102,6 @@ final class BuscarDataHandler implements Handler
 		}
 
 		return $fecha;
-		return array($entity->getShop() => $fecha);
 	}
 
 	private function archivarData(array $data)
@@ -110,7 +112,7 @@ final class BuscarDataHandler implements Handler
 				$model = $casoUso->execute($opcion['query']);
 				$this->repository->guardarData($opcion['path'], $model->toJson());
 			} catch (\Exception $e) {
-				Log::debug("[BUSCAR DATA HANDLER][ARCHIVAR DATA][ERROR] {$e->getMessage()}");
+				Log::error("[BUSCAR DATA HANDLER][ARCHIVAR DATA][ERROR] {$e->getMessage()}");
 				continue;
 			}
 		}

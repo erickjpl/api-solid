@@ -2,9 +2,8 @@
 
 namespace Epl\Sincronizador\Infrastructure\Eloquent;
 
-use App\Jobs\Sincronizador\BuscarDataJob;
 use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
-use Illuminate\Support\Facades\Log;
+use App\Jobs\Sincronizador\BuscarDataJob;
 use Illuminate\Support\Facades\Storage;
 
 final class SolicitarDataRepository implements SincronizarDataIRepository

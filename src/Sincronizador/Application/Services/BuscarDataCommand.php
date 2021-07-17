@@ -10,14 +10,24 @@ final class BuscarDataCommand implements Command
 	private $traza;
 	private $opcion;
 	private $tienda;
+	private $almacen;
 
-	public function __construct(string $traza, string $tipo, string $opcion, string $tienda, array $fecha)
+	public function __construct(string $almacen, string $traza, string $tipo, string $opcion, string $tienda, array $fecha)
 	{
 		$this->tipo = $tipo;
 		$this->fecha = $fecha;
 		$this->traza = $traza;
 		$this->opcion = $opcion;
 		$this->tienda = $tienda;
+		$this->almacen = $almacen;
+	}
+
+	/**
+	 * Get the value of almacen
+	 */ 
+	public function getAlmacen()
+	{
+		return $this->almacen;
 	}
 
 	/**

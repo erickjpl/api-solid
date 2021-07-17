@@ -10,12 +10,10 @@ use Illuminate\Support\Str;
 
 final class SolicitarDataHandler implements Handler
 {
-	private $almacen;
 	private $repository;
 
 	public function __construct(SincronizarDataIRepository $repository)
 	{
-		$this->almacen = Str::lower(config('app.almacen'));
 		$this->repository = $repository;
 	}
 
@@ -24,31 +22,31 @@ final class SolicitarDataHandler implements Handler
 		$service = new SolicitarData();
 		$opciones = $service->validarTipo($command->getTipo());
 		$fecha = $service->devolverFecha($command->getFecha());
-		$flag = $service->validarTiendaOpciones($command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones, $this->almacen);
+		$flag = $service->validarTiendaOpciones($command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones);
 		
-		$this->encolar($flag, $command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones, $fecha);
+		$this->encolar($flag, $command->getAlmacen(), $command->getTipo(), $command->getOpcion(), $command->getTienda(), $opciones, $fecha);
 	}
 
-	private function encolar(int $flag, string $tipo, string $opcion, string $tienda, array $opciones, array $fecha)
+	private function encolar(int $flag, string $almacen, string $tipo, string $opcion, string $tienda, array $opciones, array $fecha)
 	{
 		switch ($flag) {
 			case 1:
 				foreach ($opciones as $value) {
-					$traza = $this->encolarBuscarData($tipo, $value, $tienda, $fecha);
-					Log::debug("[$traza][PROFIT][ALMACEN]{$this->almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} [OPCION] {$value} | [FECHA] {$fecha['start_date']} - {$fecha['end_date']}");
+					$traza = $this->encolarBuscarData($almacen, $tipo, $value, $tienda, $fecha);
+					Log::debug("[$traza][PROFIT][ALMACEN]{$almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} [OPCION] {$value} | [FECHA] {$fecha['start_date']} - {$fecha['end_date']}");
 				}
 				break;
 			case 2:
-				$traza = $this->encolarBuscarData($tipo, $opcion, $tienda, $fecha);
-        Log::debug("[$traza][PROFIT][ALMACEN]{$this->almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} [OPCION] {$opcion} | [FECHA] {$fecha['start_date']} - {$fecha['end_date']}");
+				$traza = $this->encolarBuscarData($almacen, $tipo, $opcion, $tienda, $fecha);
+        Log::debug("[$traza][PROFIT][ALMACEN]{$almacen}[DESTINO]{$tienda} | [TIPO] {$tipo} [OPCION] {$opcion} | [FECHA] {$fecha['start_date']} - {$fecha['end_date']}");
 				break;
 		}
 	}
 
-  private function encolarBuscarData(string $tipo, string $opcion, string $tienda, array $fecha)
+  private function encolarBuscarData(string $almacen, string $tipo, string $opcion, string $tienda, array $fecha)
   {
     $traza = Str::random(6);
-    $this->repository->encolarBuscarData($traza, $tipo, $opcion, $tienda, $fecha, $this->almacen);
+    $this->repository->encolarBuscarData($traza, $tipo, $opcion, $tienda, $fecha, $almacen);
     return $traza;
   }
 }

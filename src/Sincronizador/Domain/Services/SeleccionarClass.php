@@ -17,9 +17,9 @@ class SeleccionarClass
 		return $opcion == self::TODAS_TIENDAS;
 	}
 
-	public static function validarTipoEspecial(string $tipo): bool
+	public static function validarTipoEspecial(string $tipo, string $almacen): bool
 	{
-		return in_array($tipo, self::TIPO_ESPECIAL);
+		return in_array($tipo, self::TIPO_ESPECIAL) && in_array($almacen, self::TIPO_ESPECIAL);
 	}
 
 	public static function excluirTiendas(string $tienda): bool
