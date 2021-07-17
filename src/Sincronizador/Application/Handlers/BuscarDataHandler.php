@@ -118,7 +118,7 @@ final class BuscarDataHandler implements Handler
 			}
 		}
 		
-		$this->repository->subirData($traza, $tienda, $this->almacen);
+		$this->repository->tareaSubirData($traza, $tienda, $this->almacen);
 	}
 
 	private function mapCasoUso($class)

@@ -6,32 +6,32 @@ use Epl\Sincronizador\Domain\Constants\Constant;
 
 class SubirData
 {
-	public static function carpetaData(string $tienda): string
+	public function carpetaData(string $tienda): string
 	{
 		return Constant::APP_SYNC . $tienda . '/' . Constant::DATA;
 	}
 
-	public static function archivoZip(string $tienda): string
+	public function archivoZip(string $tienda): string
 	{
 		return Constant::APP_SYNC . $tienda . '/' . Constant::DATA_ZIP;
 	}
 
-	public static function notificar(string $tienda): array
+	public function notificar(string $archivar, string $tienda, string $almacen): array
 	{
 		if ($tienda == Constant::TIENDA_WEB_DETAL) {				
-			$dir_dreamhost = Constant::DIR_DREAMHOST . $tienda;
-			$uri = 'api/configuracion/syncronizar/web';
-		} elseif ($tienda == 'wholesale') {
-			$dir_dreamhost = Constant::DIR_AL_MAYOR;
-			$uri = 'al-mayor/Migrate/index2.php';
-		} elseif ($this->shop != 'matriz') {
-			$dir_dreamhost = Constant::DIR_DREAMHOST . 'matriz/' . $tienda;
-			$uri = "api/zip-file-status-on-server/{$this->shop}/matriz/factory/uploaded";
+			$ruta = Constant::ARCHIVAR == $archivar ? Constant::DIR_DREAMHOST . $tienda : config('app.ruta_archivar') . $tienda;
+			$url = 'api/configuracion/syncronizar/web';
+		} elseif ($tienda == Constant::TIENDA_WEB_MAYOR) {
+			$ruta = Constant::ARCHIVAR == $archivar ? Constant::DIR_AL_MAYOR : config('app.ruta_archivar') . 'mayor';
+			$url = 'al-mayor/Migrate/index2.php';
+		} elseif ($almacen == Constant::ALMACEN_PRINCIPAL) {
+			$ruta = Constant::ARCHIVAR == $archivar ? Constant::DIR_DREAMHOST . $tienda : config('app.ruta_archivar') . $tienda;
+			$url = "api/zip-file-status-on-server/matriz/{$tienda}/store/uploaded";
 		} else {
-			$dir_dreamhost = Constant::DIR_DREAMHOST . $tienda;
-			$uri = "api/zip-file-status-on-server/matriz/{$tienda}/store/uploaded";
+			$ruta = Constant::ARCHIVAR == $archivar ? Constant::DIR_DREAMHOST . 'matriz/' . $tienda : config('app.ruta_archivar') . 'matriz/' . $tienda;
+			$url = "api/zip-file-status-on-server/{$almacen}/matriz/factory/uploaded";
 		}
 
-		return array();
+		return array('ruta' => $ruta, 'url' => $url);
 	}
 }

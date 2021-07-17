@@ -16,6 +16,8 @@ class SolicitarDataController extends AppBaseController
 {
   /** @var  String */
   private $almacen;
+  /** @var  String */
+  private $archivar;
   /** @var  SincronizadorBus */
   private $commandBus;
 
@@ -23,6 +25,7 @@ class SolicitarDataController extends AppBaseController
   {
     $this->commandBus = $commandBus;
 		$this->almacen = Str::lower(config('app.almacen'));
+		$this->archivar = Str::lower(config('app.archivar'));
   }
   
   public function solicitar($tipo, $opcion, $tienda, Request $request)
@@ -55,7 +58,7 @@ class SolicitarDataController extends AppBaseController
   
   public function subir(string $traza, string $tienda)
   {
-    $command = new SubirDataCommand($this->almacen, $traza, $tienda);
+    $command = new SubirDataCommand($this->archivar, $this->almacen, $traza, $tienda);
 
     $this->commandBus->execute($command);
 

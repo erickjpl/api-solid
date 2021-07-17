@@ -5,10 +5,12 @@ namespace Epl\Sincronizador\Domain\Constants;
 class Constant
 {
     /** INICIO REGLAS DE NEGOCIO */
+    const ARCHIVAR = 'ftp';
     const TODAS_TIENDAS = 'all';
 
     const TIENDA_WEB_DETAL = 'detal';
-    const TIENDA_WEB_MAYOY = 'mayor';
+    const TIENDA_WEB_MAYOR = 'mayor';
+    const ALMACEN_PRINCIPAL = 'matriz';
 	const TIPO_ESPECIAL = array('fabrica', 'matriz');
 	const EXCLUIR_TIENDAS = array('matriz', 'online', 'detal', 'mayor');
 

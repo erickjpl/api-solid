@@ -8,5 +8,9 @@ interface SincronizarDataIRepository
 
   public function guardarData(string $path, $data): bool;
 
-  public function subirData(string $traza, string $tienda, string $almacen): void;
+  public function tareaSubirData(string $traza, string $tienda, string $almacen): void;
+
+  public function comprimirData(string $carpeta, string $archivo): bool;
+
+  public function subirData(string $ruta_carpeta, string $archivo, string $archivar): bool;
 }

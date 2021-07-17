@@ -19,6 +19,10 @@ return [
     
     'almacenes' => env('APP_ALMACENES', []),
 
+    'archivar' => env('APP_ARCHIVAR', 'ftp'), // ftp, local
+    
+    'ruta_archivar' => env('APP_RUTA_ARCHIVAR_ZIP_LOCAL', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

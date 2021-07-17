@@ -7,23 +7,23 @@ final class SubirDataCommand implements Command
 {
 	private $traza;
 	private $tienda;
-	private $archivo;
+	private $archivar;
 	private $almacen;
 
-	public function __construct(string $archivo, string $almacen, string $traza, string $tienda)
+	public function __construct(string $archivar, string $almacen, string $traza, string $tienda)
 	{
 		$this->traza = $traza;
 		$this->tienda = $tienda;
-		$this->archivo = $archivo;
 		$this->almacen = $almacen;
+		$this->archivar = $archivar;
 	}
 
 	/**
-	 * Get the value of archivo
+	 * Get the value of archivar
 	 */ 
-	public function getArchivo()
+	public function getArchivar()
 	{
-		return $this->archivo;
+		return $this->archivar;
 	}
 
 	/**
