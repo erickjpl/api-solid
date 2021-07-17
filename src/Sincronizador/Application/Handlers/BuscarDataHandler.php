@@ -13,6 +13,7 @@ use Carbon\Carbon;
 
 final class BuscarDataHandler implements Handler
 {
+	private $almacen;
 	private $tiendas;
 	private $repository;
 	private $conexionRepo;
@@ -28,9 +29,10 @@ final class BuscarDataHandler implements Handler
 
 	public function __invoke($command)
 	{
+		$this->almacen = $command->getAlmacen();
 		$fecha = $this->validarFechaInicioTienda($command);
 
-		if (SeleccionarClass::validarTipoEspecial($command->getTipo(), $command->getAlmacen())) {
+		if (SeleccionarClass::validarTipoEspecial($command->getTipo(), $this->almacen)) {
 			if (SeleccionarClass::ejecutarTodasTiendas($command->getTienda())) {
 				foreach ($this->tiendas as $tienda) {
 					if (SeleccionarClass::excluirTiendas($tienda)) { continue; }
@@ -47,7 +49,7 @@ final class BuscarDataHandler implements Handler
 		/** Obtener la fecha enviada por el usuario */
 		$fecha = $command->getFecha();
 
-		if (SeleccionarClass::validarTipoEspecial($command->getTipo(), $command->getAlmacen())) {
+		if (SeleccionarClass::validarTipoEspecial($command->getTipo(), $this->almacen)) {
 			if (SeleccionarClass::ejecutarTodasTiendas($command->getTienda())) {
 				$fechas = collect();
 				foreach ($this->tiendas as $tienda) {
@@ -68,7 +70,7 @@ final class BuscarDataHandler implements Handler
 		/** Busca la clase que se necesita implementar para buscar la data que debe subir para sincronizar */
 		$class = SeleccionarClass::opcionBuscar($tienda);
 		$sincronizar = $class->obtenerClass($traza, $opcion, $tienda, $fecha);
-		$this->archivarData($sincronizar);
+		$this->archivarData($traza, $sincronizar, $tienda);
 	}
 
 	public function executeCasoUso(string $tienda, array $fecha): array
@@ -103,7 +105,7 @@ final class BuscarDataHandler implements Handler
 		return $fecha;
 	}
 
-	private function archivarData(array $data)
+	private function archivarData(string $traza, array $data, string $tienda)
 	{
 		foreach ($data as $opcion) {
 			try {
@@ -115,6 +117,8 @@ final class BuscarDataHandler implements Handler
 				continue;
 			}
 		}
+		
+		$this->repository->subirData($traza, $tienda, $this->almacen);
 	}
 
 	private function mapCasoUso($class)

@@ -6,8 +6,11 @@ class Constant
 {
     /** INICIO REGLAS DE NEGOCIO */
     const TODAS_TIENDAS = 'all';
+
+    const TIENDA_WEB_DETAL = 'detal';
+    const TIENDA_WEB_MAYOY = 'mayor';
 	const TIPO_ESPECIAL = array('fabrica', 'matriz');
-	const EXCLUIR_TIENDAS = array('matriz', 'online', 'retail', 'wholesale');
+	const EXCLUIR_TIENDAS = array('matriz', 'online', 'detal', 'mayor');
 
     const TODO = 1; /** Todas las opciones */
 	const TODAS = 'all'; /** Todas las opciones */

@@ -7,6 +7,7 @@ use App\Http\Requests\Sincronizador\SolicitarDataRequest;
 use App\Http\Resources\Sincronizador\SolicitarDataResource;
 use Epl\Sincronizador\Application\Services\BuscarDataCommand;
 use Epl\Sincronizador\Application\Services\SolicitarDataCommand;
+use Epl\Sincronizador\Application\Services\SubirDataCommand;
 use Epl\Sincronizador\Infrastructure\Bus\Contracts\SincronizadorBus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -50,5 +51,14 @@ class SolicitarDataController extends AppBaseController
     $this->commandBus->execute($command);
 
     return response()->json('buscar REALIZANDO PRUEBAS');
+  }
+  
+  public function subir(string $traza, string $tienda)
+  {
+    $command = new SubirDataCommand($this->almacen, $traza, $tienda);
+
+    $this->commandBus->execute($command);
+
+    return response()->json('subir REALIZANDO PRUEBAS');
   }
 }
