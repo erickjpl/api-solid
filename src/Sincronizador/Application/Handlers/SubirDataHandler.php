@@ -8,6 +8,7 @@ use Epl\Sincronizador\Domain\Exceptions\ErrorSubiendoData;
 use Epl\Sincronizador\Domain\Services\SubirData;
 use Epl\Sincronizador\Infrastructure\Eloquent\ConnectionRepository;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 final class SubirDataHandler implements Handler
 {
@@ -41,6 +42,7 @@ final class SubirDataHandler implements Handler
 			}
 		} catch (\Exception $e) {
 			$this->actConexionRepo->execute(array('status' => '0'), $conexion->getId());
+			Log::error("[{$command->getTraza()}][SUBIR DATA HANDLER][COMPRIMIR-SUBIR][RUTA] {$e->getMessage()}");
 			throw $e;
 		}
 
@@ -51,7 +53,7 @@ final class SubirDataHandler implements Handler
 
 	private function comprimir(string $traza, string $carpeta_data, string $archivo_zip): bool
 	{
-		Log::debug("[$traza][SUBIR DATA HANDLER][RUTA] {$archivo_zip}");
+		Log::debug("[$traza][SUBIR DATA HANDLER][COMPRIMIR][RUTA] {$archivo_zip}");
 		return $this->repository->comprimirData($carpeta_data, $archivo_zip);
 	}
 

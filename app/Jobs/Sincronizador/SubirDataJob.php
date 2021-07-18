@@ -16,7 +16,7 @@ class SubirDataJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $tipo;
+    protected $traza;
     protected $tienda;
     protected $commandBus;
 
@@ -39,7 +39,7 @@ class SubirDataJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $traza, string  $tienda,)
+    public function __construct(string $traza, string  $tienda)
     {
         $this->traza = $traza;
         $this->tienda = $tienda;
@@ -69,6 +69,6 @@ class SubirDataJob implements ShouldQueue
      */
     public function failed(\Throwable $exception)
     {
-        Log::error("[BUSCAR DATA JOB][ERROR] {$exception->getMessage()}");
+        Log::error("[SUBIR DATA JOB][ERROR] {$exception->getMessage()}");
     }
 }
