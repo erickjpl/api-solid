@@ -4,30 +4,48 @@ namespace Epl\Sincronizador\Application\Handlers;
 
 use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
 use Epl\Sincronizador\Application\Contracts\Handler;
+use Epl\Sincronizador\Domain\Exceptions\ErrorSubiendoData;
 use Epl\Sincronizador\Domain\Services\SubirData;
+use Epl\Sincronizador\Infrastructure\Eloquent\ConnectionRepository;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 final class SubirDataHandler implements Handler
 {
 	private $service;
 	private $repository;
+	private $conexionRepo;
+	private $actConexionRepo;
 
 	public function __construct(SincronizarDataIRepository $repository)
 	{
 		$this->repository = $repository;
 		$this->service = new SubirData();
+		$this->conexionRepo = new CasoUsoValidarConexionTienda(new ConnectionRepository());
+		$this->actConexionRepo = new CasoUsoActualizarConexionTienda(new ConnectionRepository());
 	}
 
 	public function __invoke($command)
 	{
+		$flag = false;
 		$this->almacen = $command->getAlmacen();
 		$carpeta_data = $this->service->carpetaData($command->getTienda());
 		$archivo_zip = $this->service->archivoZip($command->getTienda());
 		$notificar = $this->service->notificar($command->getArchivar(), $command->getTienda(), $this->almacen);
 
-		if ($this->comprimir($command->getTraza(), $carpeta_data, $archivo_zip)) {
-			$this->subir($command->getTraza(), $notificar['ruta'], $archivo_zip, $command->getArchivar());
+		/** Obtener registro de conexción de la tienda */
+		$conexion = $this->conexionRepo->execute($command->getTienda());
+
+		try {
+			if ($this->comprimir($command->getTraza(), $carpeta_data, $archivo_zip)) {
+				$flag = $this->subir($command->getTraza(), $notificar['ruta'], $archivo_zip, $command->getArchivar());
+			}
+		} catch (\Exception $e) {
+			$this->actConexionRepo->execute(array('status' => '0'), $conexion->getId());
+			throw $e;
+		}
+
+		if ($flag) {
+			$this->notificar($command->getTraza(), $flag, $conexion->getId(), $notificar['uri'], $carpeta_data, $archivo_zip, $command->getArchivar());
 		}
 	}
 
@@ -37,9 +55,29 @@ final class SubirDataHandler implements Handler
 		return $this->repository->comprimirData($carpeta_data, $archivo_zip);
 	}
 
-	public function subir(string $traza, string $carpeta_data, string $archivo_zip, string $archivar): bool
+	private function subir(string $traza, string $carpeta_data, string $archivo_zip, string $archivar): bool
 	{
-		Log::debug("[$traza][SUBIR][{$archivar}][RUTA] {$carpeta_data}");
-		return $this->repository->subirData($carpeta_data, $archivo_zip, $archivar);
+		try {
+			Log::debug("[$traza][SUBIR][{$archivar}][RUTA] {$carpeta_data}");
+			return $this->repository->subirData($carpeta_data, $archivo_zip, $archivar);
+		} catch (\Exception $e) {
+			Log::error("[$traza][ERROR][SUBIR][{$archivar}][RUTA] {$carpeta_data}. Ocurrio un error subiendo el archivo zip con la data.");
+			throw new ErrorSubiendoData("Ocurrio un error subiendo el archivo zip con la data:. {$e->getMessage()}");			
+		}
+	}
+
+	private function notificar(string $traza, bool $flag, int $id, string $uri, string $carpeta_data, string $archivo_zip, string $archivar)
+	{
+		if ($flag) {
+			$this->actConexionRepo->execute(array('status' => '1'), $id);
+
+			$response = $this->repository->notificarSubidaData($uri);
+			Log::debug("[$traza][SUBIR DATA HANDLER][NOTIFICAR][RESPUESTA] {$response}");
+
+			$this->repository->limpiarData($archivo_zip, $archivar);
+			$this->repository->limpiarData($carpeta_data, $archivar);
+		} else {
+			$this->actConexionRepo->execute(array('status' => '0'), $id);
+		}
 	}
 }

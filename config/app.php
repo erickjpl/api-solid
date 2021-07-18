@@ -23,6 +23,8 @@ return [
     
     'ruta_archivar' => env('APP_RUTA_ARCHIVAR_ZIP_LOCAL', null),
 
+    'url_notificar' => env('APP_URL_NOTIFICAR', 'https://www.valleverde.tk'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

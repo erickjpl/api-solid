@@ -13,4 +13,8 @@ interface SincronizarDataIRepository
   public function comprimirData(string $carpeta, string $archivo): bool;
 
   public function subirData(string $ruta_carpeta, string $archivo, string $archivar): bool;
+
+  public function notificarSubidaData(string $uri);
+
+  public function limpiarData(string $archivo_zip, string $archivar): void;
 }
