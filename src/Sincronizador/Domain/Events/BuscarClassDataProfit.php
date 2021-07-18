@@ -25,59 +25,64 @@ final class BuscarClassDataProfit implements BuscarClassInterface
 					array('traza' => $traza, 'class' => 'TipoCli', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::TIPO_CLI, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date'])))
 				);
 				break;
-			// case 'warehouse':
-			// 	$this->almacen($fecha,$tienda); # se guardan las sucursales
-			// 	$this->sub_alma($fecha,$tienda);  # se guardan los almacenes
-			// 	break;
-			// case 'currency':
+			case 'almacenes':
+				return array(
+					// array('traza' => $traza, 'class' => 'Almacen', 'path' => Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::ALMACEN, 'query' => array('between' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date'])), 'co_sucu' => $tienda)),
+					// array('traza' => $traza, 'class' => 'SubAlma', 'path' => Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::SUB_ALMA, 'query' => array('between' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date'])), 'co_sucu' => $tienda))
+				);
+				break;
+			// case 'tasas':
 			// 	$this->moneda($fecha,$tienda);
 			// 	$this->tasas($fecha,$tienda);
 			// 	break;
-			// case 'customers':
+			// case 'clientes':
 			// 	$this->vendedor($fecha,$tienda);
 			// 	$this->clientes($fecha,$tienda);
 			// 	break;			
-			// case 'categories':
+			// case 'categorias':
 			// 	$this->lin_art($fecha,$tienda);
 			// 	$this->sub_lin($fecha,$tienda);
 			// 	$this->colores($fecha,$tienda);
 			// 	$this->cat_art($fecha,$tienda);
 			// 	break;
-			// case 'articles':
+			// case 'articulos':
 			// 	$this->art($fecha,$tienda);
 			// 	break;
-			// case 'inventories':
+			// case 'inventarios':
 			// 	$this->lote($fecha,$tienda);
 			// 	break;
-			// case 'promotions':
+			// case 'descuentos':
 			// 	$this->descuen($fecha,$tienda);
 			// 	break;
-			// case 'lots':
+			// case 'lotes':
 			// 	$this->st_almac($fecha,$tienda);
 			// 	$this->st_lote($fecha,$tienda);
 			// 	break;
-			// case 'tweaks':
+			// case 'ajustes':
 			// 	$this->ajuste($fecha,$tienda);
 			// 	$this->reng_aju($fecha,$tienda);
 			// 	break;
-			// case 'transfers':
+			// case 'traslados':
 			// 	$this->tras_alm($fecha,$tienda);
 			// 	$this->reng_tra($fecha,$tienda);
+			// 	$this->lote($fecha,$tienda);
+			// 	$this->st_alma($fecha,$tienda);
+			// 	$this->st_lote($fecha,$tienda);
 			// 	break;
-			// case 'invoices':
+			// case 'facturas':
 			// 	$this->factura($fecha,$tienda);
 			// 	$this->reng_fac($fecha,$tienda);
 			// 	break;
-			// case 'repayments':
+			// case 'devoluciones':
 			// 	$this->dev_cli($fecha,$tienda);
 			// 	$this->reng_dvc($fecha,$tienda);
 			// 	break;
-			// case 'charges':
+			// case 'cobros':
 			// 	$this->cobros($fecha,$tienda);
 			// 	$this->reng_cob($fecha,$tienda);
 			// 	$this->reng_tip($fecha,$tienda);
 			// 	break;
-			// case 'deposits':
+			// case 'depositos':
 			// 	$this->cajas($fecha,$tienda);
 			// 	$this->cuentas($fecha,$tienda);
 			// 	$this->dep_caj($fecha,$tienda);
@@ -85,7 +90,7 @@ final class BuscarClassDataProfit implements BuscarClassInterface
 			// 	$this->mov_caj($fecha,$tienda);
 			// 	$this->mov_ban($fecha,$tienda);
 			// 	break;
-			// case 'documents':
+			// case 'documentos':
 			// 	$this->docum_cc($fecha,$tienda);
 			// 	break;
 		}

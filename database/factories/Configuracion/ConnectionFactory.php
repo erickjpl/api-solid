@@ -23,10 +23,10 @@ class ConnectionFactory extends Factory
     {
         return [
             'shop' => $this->faker->word,
-        'start_date' => $this->faker->word,
-        'status' => $this->faker->word,
-        'created_at' => $this->faker->date('Y-m-d H:i:s'),
-        'updated_at' => $this->faker->date('Y-m-d H:i:s')
+            'start_date' => $this->faker->word,
+            'status' => $this->faker->word,
+            'created_at' => $this->faker->date('Y-m-d H:i:s'),
+            'updated_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }

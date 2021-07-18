@@ -4,19 +4,15 @@ namespace App\Http\Controllers\Solid\Sincronizador;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\Sincronizador\SolicitarDataResource;
-use Epl\Sincronizador\Application\Services\BuscarDataCommand;
-use Epl\Sincronizador\Application\Services\SolicitarDataCommand;
-use Epl\Sincronizador\Application\Services\SubirDataCommand;
+use Epl\Sincronizador\Application\Services\SolicitarExistenciaDataCommand;
 use Epl\Sincronizador\Infrastructure\Bus\Contracts\SincronizadorBus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class SolicitarDataController extends AppBaseController
+class DescargarDataController extends AppBaseController
 {
   /** @var  String */
   private $almacen;
-  /** @var  String */
-  private $archivar;
   /** @var  SincronizadorBus */
   private $commandBus;
 
@@ -24,13 +20,12 @@ class SolicitarDataController extends AppBaseController
   {
     $this->commandBus = $commandBus;
 		$this->almacen = Str::lower(config('app.almacen'));
-		$this->archivar = Str::lower(config('app.archivar'));
   }
   
-  public function solicitar($tipo, $opcion, $tienda, Request $request)
+  public function solicitar(Request $request)
   {
     try {
-      $command = new SolicitarDataCommand($this->almacen, $tipo, $opcion, $tienda, $request->all());
+      $command = new SolicitarExistenciaDataCommand($this->almacen, $request->tiendas);
   
       $this->commandBus->execute($command);
       

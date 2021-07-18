@@ -92,6 +92,14 @@ abstract class BaseRepository implements BaseRepositoryInterface
                 if (in_array($key, $this->getFieldsSearchable())) {
                     $query->where($key, $value);
                 }
+
+                if ($key == 'between') {
+                    foreach($value as $column => $content) {
+                        if (in_array($column, $this->getFieldsSearchable())) {
+                            $query->whereBetween($column, $content);
+                        }                        
+                    }
+                }
             }
         }
 
