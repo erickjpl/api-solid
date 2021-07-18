@@ -27,6 +27,8 @@ class Constant
     const DIR_DREAMHOST = 'valleverde.tk/codigo/backend/storage/app/sync/';
     const DIR_AL_MAYOR  = 'valleverde.net.ve/al-mayor/Migrate/data/';
     const APP_SYNC      = 'app/sync/';
+    const SYNC          = 'sync/';
+    const APP           = 'app/';
     /** END V2 */
 
    	const DATA_ZIP      = 'data.zip';

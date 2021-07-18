@@ -1,6 +1,6 @@
 <?php
 
-namespace Epl\Sincronizador\Infrastructure\Eloquent;
+namespace Epl\Sincronizador\Infrastructure\Services;
 
 use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
 use App\Jobs\Sincronizador\BuscarDataJob;
@@ -50,6 +50,12 @@ final class SolicitarDataRepository implements SincronizarDataIRepository
 
   public function subirData(string $ruta_carpeta, string $archivo, string $archivar): bool
   {
+    if ($archivar == 'local') {
+      if (!file_exists($ruta_carpeta)) mkdir($ruta_carpeta);
+      
+      return file_put_contents("{$ruta_carpeta}/data.zip", storage_path($archivo));
+    }
+
     if (!Storage::disk($archivar)->exists($ruta_carpeta)) Storage::disk($archivar)->makeDirectory($ruta_carpeta);
 
     return Storage::disk($archivar)->putFileAs($ruta_carpeta, storage_path($archivo), 'data.zip');
@@ -69,10 +75,17 @@ final class SolicitarDataRepository implements SincronizarDataIRepository
     }
   }
 
-  public function limpiarData(string $file_or_folder, string $archivar): void
+  public function eliminarArchivoZip(string $archivo, string $archivar): void
   {
-    if (Storage::disk($archivar)->exists($file_or_folder)) {
-			Storage::disk($archivar)->delete($file_or_folder);
+    if (Storage::disk($archivar)->exists($archivo)) {
+			Storage::disk($archivar)->delete($archivo);
+    }
+  }
+
+  public function limpiarCarpetaData(string $carpeta, string $archivar): void
+  {
+    if ($archivos = Storage::disk($archivar)->files($carpeta)) {
+			Storage::disk($archivar)->delete($archivos);
     }
   }
 }

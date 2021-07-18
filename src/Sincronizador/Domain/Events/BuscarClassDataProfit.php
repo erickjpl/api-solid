@@ -12,17 +12,17 @@ final class BuscarClassDataProfit implements BuscarClassInterface
 		switch ($opcion) {
 			case 'general':
 				return array(
-					array('traza' => $traza, 'class' => 'Vendedor', 'path' => $tienda.'/'.Constant::DATA.Constant::VENDEDOR, 'query' => array('condic' => 1)),
-					array('traza' => $traza, 'class' => 'TipoAju', 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_AJU, 'query' => []),
-					array('traza' => $traza, 'class' => 'CtaIngr', 'path' =>  $tienda.'/'.Constant::DATA.Constant::CTA_INGR, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
-					array('traza' => $traza, 'class' => 'Segmento', 'path' =>  $tienda.'/'.Constant::DATA.Constant::SEGMENTO, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
-					array('traza' => $traza, 'class' => 'TipoPro', 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_PRO, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
-					array('traza' => $traza, 'class' => 'Zona', 'path' =>  $tienda.'/'.Constant::DATA.Constant::ZONA, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
-					array('traza' => $traza, 'class' => 'Prov', 'path' =>  $tienda.'/'.Constant::DATA.Constant::PROV, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
-					array('traza' => $traza, 'class' => 'Tabulado', 'path' =>  $tienda.'/'.Constant::DATA.Constant::TABULADO, 'query' => []),
-					array('traza' => $traza, 'class' => 'Unidades', 'path' =>  $tienda.'/'.Constant::DATA.Constant::UNIDADES, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
-					array('traza' => $traza, 'class' => 'Proceden', 'path' =>  $tienda.'/'.Constant::DATA.Constant::PROCEDEN, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
-					array('traza' => $traza, 'class' => 'TipoCli', 'path' =>  $tienda.'/'.Constant::DATA.Constant::TIPO_CLI, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date'])))
+					array('traza' => $traza, 'class' => 'Vendedor', 'path' => Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::VENDEDOR, 'query' => array('condic' => 1)),
+					array('traza' => $traza, 'class' => 'TipoAju', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::TIPO_AJU, 'query' => []),
+					array('traza' => $traza, 'class' => 'CtaIngr', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::CTA_INGR, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
+					array('traza' => $traza, 'class' => 'Segmento', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::SEGMENTO, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
+					array('traza' => $traza, 'class' => 'TipoPro', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::TIPO_PRO, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
+					array('traza' => $traza, 'class' => 'Zona', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::ZONA, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
+					array('traza' => $traza, 'class' => 'Prov', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::PROV, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
+					array('traza' => $traza, 'class' => 'Tabulado', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::TABULADO, 'query' => []),
+					array('traza' => $traza, 'class' => 'Unidades', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::UNIDADES, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
+					array('traza' => $traza, 'class' => 'Proceden', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::PROCEDEN, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date']))),
+					array('traza' => $traza, 'class' => 'TipoCli', 'path' =>  Constant::SYNC.'/'.$tienda.'/'.Constant::DATA.Constant::TIPO_CLI, 'query' => array('fe_us_mo' => array($fecha['start_date'],$fecha['end_date'])))
 				);
 				break;
 			// case 'warehouse':

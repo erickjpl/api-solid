@@ -16,5 +16,7 @@ interface SincronizarDataIRepository
 
   public function notificarSubidaData(string $uri);
 
-  public function limpiarData(string $archivo_zip, string $archivar): void;
+  public function eliminarArchivoZip(string $archivo_zip, string $archivar): void;
+
+  public function limpiarCarpetaData(string $archivo_zip, string $archivar): void;
 }

@@ -2,13 +2,14 @@
 
 namespace Epl\Sincronizador\Application\Handlers;
 
-use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
-use Epl\Sincronizador\Application\Contracts\Handler;
-use Epl\Sincronizador\Domain\Exceptions\ErrorSubiendoData;
-use Epl\Sincronizador\Domain\Services\SubirData;
 use Epl\Sincronizador\Infrastructure\Eloquent\ConnectionRepository;
+use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
+use Epl\Sincronizador\Domain\Exceptions\ErrorSubiendoData;
+use Epl\Sincronizador\Application\Contracts\Handler;
+use Epl\Sincronizador\Domain\Constants\Constant;
+use Epl\Sincronizador\Domain\Services\SubirData;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 final class SubirDataHandler implements Handler
 {
@@ -74,10 +75,10 @@ final class SubirDataHandler implements Handler
 			$this->actConexionRepo->execute(array('status' => '1'), $id);
 
 			$response = $this->repository->notificarSubidaData($uri);
-			Log::debug("[$traza][SUBIR DATA HANDLER][NOTIFICAR][RESPUESTA] {$response}");
+			Log::debug("[$traza][SUBIR DATA HANDLER][NOTIFICAR][{$uri}] [RESPUESTA]: {$response}");
 
-			$this->repository->limpiarData($archivo_zip, $archivar);
-			$this->repository->limpiarData($carpeta_data, $archivar);
+			$this->repository->eliminarArchivoZip(Str::replaceFirst(Constant::APP, '', $archivo_zip), $archivar);
+			$this->repository->limpiarCarpetaData(Str::replaceFirst(Constant::APP, '', $carpeta_data), $archivar);
 		} else {
 			$this->actConexionRepo->execute(array('status' => '0'), $id);
 		}

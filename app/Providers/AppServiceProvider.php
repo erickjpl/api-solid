@@ -9,7 +9,7 @@ use Epl\Sincronizador\Infrastructure\Bus\LaravelContainer;
 use Epl\Sincronizador\Application\Bus\Contracts\Container;
 
 use Epl\Sincronizador\Domain\Contracts\SincronizarDataIRepository;
-use Epl\Sincronizador\Infrastructure\Eloquent\SolicitarDataRepository;
+use Epl\Sincronizador\Infrastructure\Services\SolicitarDataRepository;
 
 use Epl\Sincronizador\Domain\Contracts\InterfaceRespository;
 
