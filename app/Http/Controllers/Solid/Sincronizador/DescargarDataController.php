@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Solid\Sincronizador;
 
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\Sincronizador\SolicitarDataResource;
+use Epl\Sincronizador\Application\Services\DescargaArchivoZipCommand;
 use Epl\Sincronizador\Application\Services\SolicitarExistenciaDataCommand;
 use Epl\Sincronizador\Infrastructure\Bus\Contracts\SincronizadorBus;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ class DescargarDataController extends AppBaseController
 {
   /** @var  String */
   private $almacen;
+  /** @var  String */
+  private $archivar;
   /** @var  SincronizadorBus */
   private $commandBus;
 
@@ -20,12 +23,13 @@ class DescargarDataController extends AppBaseController
   {
     $this->commandBus = $commandBus;
 		$this->almacen = Str::lower(config('app.almacen'));
+		$this->archivar = Str::lower(config('app.archivar'));
   }
   
   public function solicitar(Request $request)
   {
     try {
-      $command = new SolicitarExistenciaDataCommand($this->almacen, $request->tiendas);
+      $command = new SolicitarExistenciaDataCommand($this->archivar, $this->almacen, $request->tiendas);
   
       $this->commandBus->execute($command);
       
@@ -41,9 +45,9 @@ class DescargarDataController extends AppBaseController
     }
   }
   
-  public function buscar(string $traza, string $tipo, string $opcion, string $tienda, array $fecha)
+  public function buscar(string $traza, string $archivo, string $tienda)
   {
-    $command = new BuscarDataCommand($this->almacen, $traza, $tipo, $opcion, $tienda, $fecha);
+    $command = new DescargaArchivoZipCommand($traza, $this->almacen, $archivo, $tienda, $this->archivar);
 
     $this->commandBus->execute($command);
 

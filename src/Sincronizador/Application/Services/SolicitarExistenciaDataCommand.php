@@ -6,11 +6,13 @@ use Epl\Sincronizador\Application\Contracts\Command;
 
 final class SolicitarExistenciaDataCommand implements Command
 {
-	private $tiendas;
+	private $archivar;
 	private $almacen;
+	private $tiendas;
 
-	public function __construct(string $almacen, string $tiendas = [])
+	public function __construct(string $archivar, string $almacen, mixed $tiendas = null)
 	{
+    $this->archivar = $archivar;
     $this->almacen = $almacen;
     $this->tiendas = $tiendas;
 	}
@@ -29,5 +31,13 @@ final class SolicitarExistenciaDataCommand implements Command
 	public function getTiendas()
 	{
 		return $this->tiendas;
+	}
+
+	/**
+	 * Get the value of archivar
+	 */ 
+	public function getArchivar()
+	{
+		return $this->archivar;
 	}
 }

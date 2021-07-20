@@ -9,8 +9,11 @@ class Constant
     const TODAS_TIENDAS = 'all';
 
     const TIENDA_WEB_DETAL = 'detal';
+    const NOTIFICAR_TIENDA_WEB_DETAL = 'api/configuracion/syncronizar/web';
     const TIENDA_WEB_MAYOR = 'mayor';
+    const NOTIFICAR_TIENDA_WEB_MAYOR = 'al-mayor/Migrate/index.php';
     const ALMACEN_PRINCIPAL = 'matriz';
+    const NOTIFICAR_ALMACEN = 'api/zip-file-status-on-server';
 	const TIPO_ESPECIAL = array('fabrica', 'matriz');
 	const EXCLUIR_TIENDAS = array('matriz', 'online', 'detal', 'mayor');
 

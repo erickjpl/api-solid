@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 class ExistenciaData
 {
+	private $flag;
 	private $tiendas;
 
 	public function __construct()
@@ -17,27 +18,45 @@ class ExistenciaData
 		$this->tiendas = array_diff($almacenes, Constant::EXCLUIR_TIENDAS);
 	}
 
-  public function validarTiendas(string $payload, string $almacen): mixed
+  public function validarTiendas(string $archivar, mixed $payload, string $almacen): array
   {
-		if (is_null($payload)) { return $almacen; }
+		$this->flag = $this->archivador($archivar);
 
-		if ($almacen == Constant::ALMACEN_PRINCIPAL) {
-			if ($payload == Constant::TODAS) { return $this->tiendas; }
-			elseif (str_contains($payload, ',')) { return explode(",", $payload); }
-			else { return $payload; }
+		/** Si el almacen solicitado esta vacio y es diferente al principal  */
+		if (is_null($payload) && $almacen != Constant::ALMACEN_PRINCIPAL) {
+			return array($almacen => $this->flag ? Constant::DIR_DREAMHOST.$almacen : config('app.ruta_archivar').$almacen);
 		}
 
-		if (in_array($payload, $this->tiendas)) { return $payload; }
-		else {
-			Log::error("[EXISTENCIA DATA][VALIDAR TIENDAS][ERROR][".Constant::NO_TIENDA."]");
-			throw new TiendaValleverdeDesconocida(Constant::NO_TIENDA);
-		}	
+		/** El almacen es el principal */
+		if ($almacen == Constant::ALMACEN_PRINCIPAL) {
+			if (is_null($payload) || $payload == Constant::TODAS) { return $this->verificarTiendas($this->tiendas); }
+			elseif (is_array($payload)) { return $this->verificarTiendas($payload); }
+			elseif (str_contains($payload, ',')) { return $this->verificarTiendas(explode(",", $payload)); }
+			elseif (in_array($payload, $this->tiendas)) {
+				return array($payload =>  $this->flag ? Constant::DIR_DREAMHOST.Constant::ALMACEN_PRINCIPAL.'/'.$payload : config('app.ruta_archivar').Constant::ALMACEN_PRINCIPAL.'/'.$payload);
+			}
+		}
+
+		Log::error("[EXISTENCIA DATA][VALIDAR TIENDAS][ERROR][".Constant::NO_TIENDA."]");
+		throw new TiendaValleverdeDesconocida(Constant::NO_TIENDA);
   }
 
-	public function existeArchivoParaDescargar(mixed $payload)
+	private function archivador(string $archivar): bool
 	{
-		if (is_array($payload)) {
-			
+		return Constant::ARCHIVAR == $archivar;
+	}
+
+	private function verificarTiendas(array $payload): array
+	{
+		$tiendas = collect();
+		foreach ($payload as $tienda) {
+			if (in_array($tienda, $this->tiendas)) {
+				$path = $this->flag ? Constant::DIR_DREAMHOST.Constant::ALMACEN_PRINCIPAL.'/'.$tienda : config('app.ruta_archivar').Constant::ALMACEN_PRINCIPAL.'/'.$tienda;
+
+				$tiendas->put($tienda, $path);
+			}
 		}
+
+		return $tiendas->all();
 	}
 }

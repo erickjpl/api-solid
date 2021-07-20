@@ -20,16 +20,16 @@ class SubirData
 	{
 		if ($tienda == Constant::TIENDA_WEB_DETAL) {				
 			$ruta = Constant::ARCHIVAR == $archivar ? Constant::DIR_DREAMHOST . $tienda : config('app.ruta_archivar') . $tienda;
-			$uri = 'api/configuracion/syncronizar/web';
+			$uri = Constant::NOTIFICAR_TIENDA_WEB_DETAL;
 		} elseif ($tienda == Constant::TIENDA_WEB_MAYOR) {
 			$ruta = Constant::ARCHIVAR == $archivar ? Constant::DIR_AL_MAYOR : config('app.ruta_archivar') . 'mayor';
-			$uri = 'al-mayor/Migrate/index2.php';
+			$uri = Constant::NOTIFICAR_TIENDA_WEB_MAYOR;
 		} elseif ($almacen == Constant::ALMACEN_PRINCIPAL) {
 			$ruta = Constant::ARCHIVAR == $archivar ? Constant::DIR_DREAMHOST . $tienda : config('app.ruta_archivar') . $tienda;
-			$uri = "api/zip-file-status-on-server/matriz/{$tienda}/store/uploaded";
+			$uri = Constant::NOTIFICAR_ALMACEN."/matriz/{$tienda}/store/uploaded";
 		} else {
-			$ruta = Constant::ARCHIVAR == $archivar ? Constant::DIR_DREAMHOST . 'matriz/' . $tienda : config('app.ruta_archivar') . 'matriz/' . $tienda;
-			$uri = "api/zip-file-status-on-server/{$almacen}/matriz/factory/uploaded";
+			$ruta = Constant::ARCHIVAR == $archivar ? Constant::DIR_DREAMHOST.Constant::ALMACEN_PRINCIPAL.'/'.$tienda : config('app.ruta_archivar').Constant::ALMACEN_PRINCIPAL.'/'.$tienda;
+			$uri = Constant::NOTIFICAR_ALMACEN."/{$almacen}/matriz/factory/uploaded";
 		}
 
 		return array('ruta' => $ruta, 'uri' => $uri);
