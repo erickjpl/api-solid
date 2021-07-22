@@ -9,6 +9,7 @@ use App\Jobs\Sincronizador\SubirDataJob;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 final class SolicitarDataRepository implements SincronizarDataIRepository
 {
@@ -101,6 +102,7 @@ final class SolicitarDataRepository implements SincronizarDataIRepository
 
   public function existeArchivoZip(string $archivo, string $archivar): bool
   {
+    Log::debug($archivo);
     if ($archivar == 'local') { // Archiva en modo Pruebas
       return file_exists($archivo);
     }

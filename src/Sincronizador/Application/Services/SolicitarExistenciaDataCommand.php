@@ -10,7 +10,12 @@ final class SolicitarExistenciaDataCommand implements Command
 	private $almacen;
 	private $tiendas;
 
-	public function __construct(string $archivar, string $almacen, mixed $tiendas = null)
+	/**
+	 * @param string $archivar
+	 * @param string $almacen
+	 * @param array|string|null $tiendas
+	 */
+	public function __construct(string $archivar, string $almacen, $tiendas = null)
 	{
     $this->archivar = $archivar;
     $this->almacen = $almacen;

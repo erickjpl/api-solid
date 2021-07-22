@@ -27,7 +27,7 @@ final class DescargaArchivoZipHandler implements Handler
 
 		$this->descargar($command);
 
-		$this->guardarArchivoLocal($command);		
+		$descomprimir = $this->guardarArchivoLocal($command);		
 
 		if ($descomprimir) {
 			// validarArchivosParaProcesar

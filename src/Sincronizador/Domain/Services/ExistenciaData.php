@@ -18,7 +18,12 @@ class ExistenciaData
 		$this->tiendas = array_diff($almacenes, Constant::EXCLUIR_TIENDAS);
 	}
 
-  public function validarTiendas(string $archivar, mixed $payload, string $almacen): array
+	/**
+	 * @param string $archivar
+	 * @param array|string|null $payload
+	 * @param string $almacen
+	 */
+  public function validarTiendas(string $archivar, $payload, string $almacen): array
   {
 		$this->flag = $this->archivador($archivar);
 
